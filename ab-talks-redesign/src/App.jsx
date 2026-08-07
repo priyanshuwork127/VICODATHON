@@ -1,6 +1,14 @@
-function App(){
+import React from "react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import "./App.css";
+
+function App() {
   return (
-    <h1>Hello ABTALKS</h1>
+    <div className="app">
+      <Navbar />
+      <Hero />
+    </div>
   );
 }
 
