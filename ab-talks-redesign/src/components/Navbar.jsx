@@ -1,46 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => setMenuOpen(false);
-
+function Navbar({ navigate }) {
   return (
-    <header className="navbar">
-      <a href="#home" className="logo" onClick={closeMenu}>
-        <span className="logo-box">&lt;/&gt;</span>
-        <span>
-          AB<span>Talks</span>
-        </span>
-      </a>
+    <nav className="navbar">
 
-      <nav className={`nav-links ${menuOpen ? "show" : ""}`}>
-        <a href="#home" onClick={closeMenu}>Home</a>
-        <a href="#challenge" onClick={closeMenu}>Challenge</a>
-        <a href="#journey" onClick={closeMenu}>Journey</a>
-        <a href="#platforms" onClick={closeMenu}>Platforms</a>
-        <a href="#about" onClick={closeMenu}>About</a>
+      <button
+        className="navbar-logo"
+        onClick={() => navigate("/")}
+      >
+        AB<span>Talks</span>
+      </button>
 
-        <a href="/login" className="mobile-login">
-          Login
-        </a>
-      </nav>
+      <div className="nav-links">
 
-      <div className="nav-right">
-        <a href="/login" className="login-btn">
-          Login
-        </a>
-
-        <button
-          className="menu-button"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
+        <button onClick={() => navigate("/")}>
+          Home
         </button>
+
+        <button onClick={() => navigate("/dashboard")}>
+          Dashboard
+        </button>
+
+        <button onClick={() => navigate("/day/1")}>
+          Challenge
+        </button>
+
       </div>
-    </header>
+
+      <button
+        className="nav-start"
+        onClick={() => navigate("/dashboard")}
+      >
+        START →
+      </button>
+
+    </nav>
   );
 }
+
+export default Navbar;

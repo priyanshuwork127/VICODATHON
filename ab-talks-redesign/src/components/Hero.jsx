@@ -1,19 +1,15 @@
 import React from "react";
 
-export default function Hero() {
+function Hero({ navigate }) {
   return (
-    <>
-      {/* ================= HERO ================= */}
+    <main>
 
-      <section className="hero" id="home">
-
-        <div className="hero-glow"></div>
+      <section className="hero">
 
         <div className="hero-content">
 
           <div className="presented">
-            <span>🔥</span>
-            ABTALKS PRESENTS
+            🔥 ABTALKS PRESENTS
           </div>
 
           <h1>
@@ -36,154 +32,72 @@ export default function Hero() {
 
           <div className="hero-stats">
             <span>★ 60 Days</span>
-            <i>•</i>
+            <span>•</span>
             <span>60 Problems</span>
-            <i>•</i>
+            <span>•</span>
             <span>Better You</span>
           </div>
 
-          <a href="/challenge" className="start-btn">
-            START DAY 01
-            <span>→</span>
-          </a>
-
-        </div>
-
-        {/* Developer illustration / card */}
-
-        <div className="hero-visual">
-
-          <div className="code-symbol">
-            &lt;/&gt;
-          </div>
-
-          <div className="day-floating-card">
-            <small>DAY</small>
-            <strong>01</strong>
-            <span>/ 60</span>
-          </div>
-
-          <div className="developer">
-            <div className="head"></div>
-            <div className="hair"></div>
-            <div className="body"></div>
-            <div className="arm"></div>
-
-            <div className="monitor">
-              <div className="screen-line"></div>
-              <div className="screen-line short"></div>
-              <div className="screen-line"></div>
-              <div className="screen-line tiny"></div>
-              <div className="screen-line short"></div>
-            </div>
-
-            <div className="desk"></div>
-          </div>
+          <button
+            className="start-button"
+            onClick={() => navigate("/dashboard")}
+          >
+            JOIN THE 60 DAY CHALLENGE →
+          </button>
 
         </div>
 
       </section>
 
 
-      {/* ================= PROGRESS ================= */}
+      <section className="why" id="why">
 
-      <section className="progress-section">
+        <p className="section-label">
+          WHY ABTALKS?
+        </p>
 
-        <div className="progress-card">
-
-          <div className="progress-heading">
-            <span>↗</span>
-            YOUR PROGRESS
-          </div>
-
-          <div className="milestone-row">
-
-            <Milestone
-              number="01"
-              label="Start"
-              active
-            />
-
-            <div className="dash"></div>
-
-            <Milestone
-              number="15"
-              label="Build"
-            />
-
-            <div className="dash"></div>
-
-            <Milestone
-              number="30"
-              label="Grow"
-            />
-
-            <div className="dash"></div>
-
-            <Milestone
-              number="45"
-              label="Push"
-            />
-
-            <div className="dash"></div>
-
-            <Milestone
-              number="60"
-              label="Complete"
-              final
-            />
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* ================= WHY JOIN ================= */}
-
-      <section
-        className="section why-section"
-        id="challenge"
-      >
-
-        <SectionTitle
-          title="WHY JOIN?"
-        />
+        <h2>
+          Small steps.
+          <br />
+          Big change.
+        </h2>
 
         <div className="why-grid">
 
           <div className="why-card">
-            <div className="why-icon purple">▣</div>
+            <span>🔥</span>
 
-            <h3>Build Consistency</h3>
+            <h3>
+              Build Consistency
+            </h3>
 
             <p>
               One problem every day
-              builds a strong habit.
+              builds a real habit.
             </p>
           </div>
 
-
           <div className="why-card">
-            <div className="why-icon green">↗</div>
+            <span>📈</span>
 
-            <h3>Improve Daily</h3>
+            <h3>
+              Improve Daily
+            </h3>
 
             <p>
-              Learn new concepts and
-              get better step by step.
+              Learn something new
+              every single day.
             </p>
           </div>
 
-
           <div className="why-card">
-            <div className="why-icon yellow">♛</div>
+            <span>🏆</span>
 
-            <h3>Reach Day 60</h3>
+            <h3>
+              Reach Day 60
+            </h3>
 
             <p>
-              Don't break the chain.
               Finish what you started.
             </p>
           </div>
@@ -193,248 +107,28 @@ export default function Hero() {
       </section>
 
 
-      {/* ================= JOURNEY ================= */}
-
-      <section
-        className="section journey-section"
-        id="journey"
-      >
-
-        <SectionTitle
-          title="THE 60-DAY JOURNEY"
-        />
-
-        <div className="journey-line">
-
-          <JourneyPoint
-            number="01"
-            title="START"
-            text="Take the first step."
-            active
-          />
-
-          <JourneyPoint
-            number="15"
-            title="BUILD"
-            text="The habit starts forming."
-          />
-
-          <JourneyPoint
-            number="30"
-            title="GROW"
-            text="You start seeing the difference."
-          />
-
-          <JourneyPoint
-            number="45"
-            title="PUSH"
-            text="You're closer than you think."
-          />
-
-          <JourneyPoint
-            number="60"
-            title="COMPLETE"
-            text="You didn't quit."
-            final
-          />
-
-        </div>
-
-      </section>
-
-
-      {/* ================= PLATFORMS ================= */}
-
-      <section
-        className="section platforms-section"
-        id="platforms"
-      >
-
-        <SectionTitle
-          title="PRACTICE WHERE YOU ALREADY CODE"
-        />
-
-        <div className="platform-list">
-
-          <PlatformCard
-            icon="LC"
-            title="LeetCode"
-            text="Solve problems and improve your DSA skills."
-            type="leetcode"
-          />
-
-          <div className="platform-arrow">→</div>
-
-          <PlatformCard
-            icon="CC"
-            title="CodeChef"
-            text="Practice, compete and level up your problem solving."
-            type="codechef"
-          />
-
-          <div className="platform-arrow">→</div>
-
-          <PlatformCard
-            icon="&lt;/&gt;"
-            title="ABTalks"
-            text="Track your progress and complete the 60-day challenge."
-            type="abt"
-          />
-
-        </div>
-
-      </section>
-
-
-      {/* ================= FINAL CTA ================= */}
-
-      <section className="final-section">
-
-        <div className="final-card">
-
-          <div className="confetti confetti-one">◆</div>
-          <div className="confetti confetti-two">◆</div>
-
-          <div className="final-copy">
-
-            <h2>
-              Your <span>Day 1</span>
-              <br />
-              starts today.
-            </h2>
-
-            <p>
-              One problem today.
-              <br />
-              A better developer
-              60 days from now.
-            </p>
-
-            <a
-              href="/challenge"
-              className="final-btn"
-            >
-              JOIN THE 60 DAY CHALLENGE
-              <span>→</span>
-            </a>
-
-          </div>
-
-          <div className="trophy">
-            🏆
-          </div>
-
-        </div>
-
-      </section>
-
-
-      {/* ================= ABOUT ================= */}
-
-      <section
-        className="about-section"
-        id="about"
-      >
-        <div className="about-code">
-          &lt;/&gt;
-        </div>
+      <section className="final-cta">
 
         <p>
-          Learn • Practice • Complete
+          YOUR DAY 1 STARTS TODAY.
         </p>
 
-        <strong>
-          See you on <span>Day 60.</span> 💙
-        </strong>
+        <h2>
+          Don't wait
+          <br />
+          for motivation.
+        </h2>
+
+        <button
+          onClick={() => navigate("/dashboard")}
+        >
+          START THE CHALLENGE →
+        </button>
+
       </section>
 
-    </>
+    </main>
   );
 }
 
-
-/* ================= COMPONENTS ================= */
-
-function Milestone({
-  number,
-  label,
-  active,
-  final
-}) {
-  return (
-    <div
-      className={`milestone ${
-        active ? "active" : ""
-      } ${final ? "final" : ""}`}
-    >
-      <div className="milestone-circle">
-        {number}
-      </div>
-
-      <span>{label}</span>
-    </div>
-  );
-}
-
-
-function SectionTitle({ title }) {
-  return (
-    <div className="section-title">
-
-      <h2>{title}</h2>
-
-      <div></div>
-
-    </div>
-  );
-}
-
-
-function JourneyPoint({
-  number,
-  title,
-  text,
-  active,
-  final
-}) {
-  return (
-    <div
-      className={`journey-point ${
-        active ? "active" : ""
-      } ${final ? "final" : ""}`}
-    >
-
-      <div className="journey-circle">
-        {number}
-      </div>
-
-      <strong>{title}</strong>
-
-      <p>{text}</p>
-
-    </div>
-  );
-}
-
-
-function PlatformCard({
-  icon,
-  title,
-  text,
-  type
-}) {
-  return (
-    <div className={`platform-card ${type}`}>
-
-      <div className="platform-icon">
-        {icon}
-      </div>
-
-      <div>
-        <h3>{title}</h3>
-        <p>{text}</p>
-      </div>
-
-    </div>
-  );
-}
+export default Hero;
