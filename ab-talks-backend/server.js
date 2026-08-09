@@ -1914,6 +1914,54 @@ app.use(
 );
 
 // =====================================================
+// GET STUDENT DATA
+// =====================================================
+
+app.get(
+    "/api/student",
+    (req, res) => {
+
+        try {
+
+            const studentData =
+                readJsonFile(studentFile);
+
+            const submissions =
+                readJsonFile(submissionsFile);
+
+            const student =
+                studentData.student;
+
+            const progress =
+                calculateChallengeProgress(student, submissions);
+
+            res.json({
+
+                success: true,
+
+                student,
+
+                progress
+            });
+
+        } catch (error) {
+
+            console.error(
+                "STUDENT FETCH ERROR:",
+                error
+            );
+
+            res.status(500).json({
+
+                success: false,
+
+                message: "Unable to load student data"
+            });
+        }
+    }
+);
+
+// =====================================================
 // START SERVER
 // =====================================================
 
