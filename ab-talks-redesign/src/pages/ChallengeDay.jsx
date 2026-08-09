@@ -5,8 +5,7 @@ import React, {
 
 function ChallengeDay({ navigate }) {
 
-    const API_URL =
-        "http://localhost:5000";
+    const API_URL ="https://trustworthy-hope-production-749d.up.railway.app";
 
     const STUDENT_ID =
         "student-001";
