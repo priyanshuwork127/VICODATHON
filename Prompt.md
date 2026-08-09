@@ -1,529 +1,543 @@
-# AI Usage Log - ViCodathon 2026
+# PROMPTS.md
 
-## Project: ABTalks
+# ABTalks — 60 Day Coding Challenge
 
-## Date: 7 August 2026
+This file documents the AI-assisted prompts and development iterations used while building the ABTalks 60 Day Coding Challenge project.
 
-## TOOLS USING: ChatGPT, Figma AI, Claude
-
----
-
-## 1. Project Planning
-
-**Prompt Used:**
-Help me plan my hackathon project ABTalks and decide the MVP features and required pages.
-
-**AI Assistance:**
-AI helped in defining the project scope, MVP features, and development roadmap.
-
-**Usage:**
-Planning the project structure and features.
+The project was developed through an iterative process of building, testing, identifying bugs, and improving the frontend and backend.
 
 ---
 
-## 2. UI/UX Design Planning
+## 1. Backend Development
 
-**Prompt Used:**
-Suggest a landing page layout for a modern coding challenge platform that motivates students to join a 60 Days Coding Challenge.
+### Initial Backend
 
-**AI Assistance:**
-AI suggested a motivational landing page with:
-- Navbar
-- Hero section
-- Challenge information
-- Progress indicators
-- Coding platform integration
-- Motivational content
-- Call-to-action
+> provide the complete file for challenge day
 
-**Usage:**
-Planning the landing page design.
+The backend was developed around a Node.js and Express API with challenge data stored in `challenges.json`.
 
 ---
 
-## 3. Mobile-First Design
+## 2. Challenge Day Frontend
 
-**Prompt Used:**
-The layout should be designed like a 390px mobile view with a dark theme.
+### ChallengeDay Component
 
-**AI Assistance:**
-AI suggested a mobile-first dark coding-themed layout optimized for a 390px screen.
+> provide the complete file for challenge day
 
-**Usage:**
-Defining the primary responsive design.
+A React `ChallengeDay` component was created to:
 
----
-
-## 4. Figma/UI Design
-
-**Prompt Used:**
-Analyze my Figma design and help me convert the design into a React website.
-
-**AI Assistance:**
-AI provided suggestions for converting the visual design into reusable React components and CSS.
-
-**Usage:**
-Translating the Figma design into the frontend implementation.
+* Load the current challenge
+* Display the challenge information
+* Display the current day
+* Show the countdown
+* Submit proof of work
+* Submit GitHub and LinkedIn links
+* Navigate between challenge days
+* Display completion status
 
 ---
 
-## 5. React Folder Structure
+## 3. Debugging Challenge Navigation
 
-**Prompt Used:**
-Suggest a React folder structure for building the ABTalks frontend.
+### Problem
 
-**AI Assistance:**
-AI suggested separating reusable components and pages, including:
-- `components`
-- `pages`
-- `assets`
-- `data`
+> it working but when i submit proof for the day 1 it switches to day 2 when i submit the proof of day 2 it switch to day 3 in same day
 
-**Usage:**
-Organizing the React project.
+The day progression logic was identified as a problem.
+
+The requirement was changed so that completing a challenge should **not immediately move the user into the next 24-hour challenge period**.
+
+The challenge should advance according to time.
 
 ---
 
-## 6. Navbar Development
+## 4. Backend Time-Based Progression
 
-**Prompt Used:**
-Create the navbar for the ABTalks 60 Days Coding Challenge website.
+### 24-Hour Challenge
 
-**AI Assistance:**
-AI provided React and CSS code for the navbar with navigation items and mobile navigation.
+> i want to make it chnage after 24 hours
 
-**Usage:**
-Implementing the website navbar.
+The challenge progression was changed from submission-based progression to **time-based progression**.
 
----
+The intended behavior became:
 
-## 7. Navbar Modification
+```text
+Day 1
+↓
+24 hours
+↓
+Day 2
+↓
+24 hours
+↓
+Day 3
+↓
+...
+↓
+Day 60
+```
 
-**Prompt Used:**
-Make the navigation work when the user clicks the navbar items.
-
-**AI Assistance:**
-AI helped connect the navigation items to the appropriate sections/pages and fix navigation issues.
-
-**Usage:**
-Making the navbar functional.
-
----
-
-## 8. Mobile Dropdown Navigation
-
-**Prompt Used:**
-The navigation menu is not dropping down on mobile. Fix the dropdown.
-
-**AI Assistance:**
-AI suggested using React state to control the mobile menu and CSS to show and hide the navigation links.
-
-**Usage:**
-Implementing the responsive mobile navbar.
+The backend stores the challenge start timestamp and calculates the current day from elapsed time.
 
 ---
 
-## 9. Global CSS
+## 5. Testing Time Progression
 
-**Prompt Used:**
-Don't create a separate navbar CSS file. I will use App.css for the styling.
+### Faster Testing
 
-**AI Assistance:**
-AI adapted the CSS implementation to use the existing `App.css` file.
+> i think that i should make it for 5 minutes first by which i can view is it change after 24 hours or not
 
-**Usage:**
-Keeping the styling centralized.
+For testing, the 24-hour period was temporarily considered as a shorter interval so the day-transition logic could be verified without waiting an entire day.
 
----
+The goal was to verify that:
 
-## 10. Landing Page Concept
-
-**Prompt Used:**
-The landing page should motivate students to join the 60 Days Coding Challenge. It is not for selling anything.
-
-**AI Assistance:**
-AI changed the design direction from a commercial landing page to a motivational student-focused challenge platform.
-
-**Usage:**
-Defining the purpose and tone of the landing page.
+* The timer counts down.
+* The current day changes after the interval.
+* Refreshing the application does not reset the timer.
+* The backend remains the source of truth.
 
 ---
 
-## 11. Hero Section Development
+## 6. ChallengeDay Debugging
 
-**Prompt Used:**
-Create a Hero section for the ABTalks 60 Days Coding Challenge that motivates students to start coding every day.
+### Complete Challenge Page
 
-**AI Assistance:**
-AI provided the structure and React implementation for the Hero section with motivational messaging and call-to-action buttons.
+> to provide the full server.js and as well as challenge.jsx
 
-**Usage:**
-Developing the main landing page Hero section.
+The frontend and backend were integrated so that the ChallengeDay page receives the current challenge and timing information from the server.
 
----
-
-## 12. Landing Page Integration
-
-**Prompt Used:**
-I have completed the Hero and Navbar components. How can I call them using the Landing page?
-
-**AI Assistance:**
-AI explained how to import and render the `Navbar` and `Hero` components inside `Landing.jsx`.
-
-**Usage:**
-Connecting the reusable components to the Landing page.
+The frontend was designed to use server-provided timing rather than relying entirely on browser state.
 
 ---
 
-## 13. React Import Error Fix
+## 7. Streak Debugging
 
-**Prompt Used:**
-Vite shows `Failed to resolve import "./pages/LandingPage"`.
+### Streak Problem
 
-**AI Assistance:**
-AI analyzed the file structure and identified that the actual file was named `Landing.jsx`, so the correct import was:
+> streaks are not updating
 
-`./pages/Landing`
+The streak calculation was debugged and updated so that completed challenge days are used to calculate consecutive progress.
 
-**Usage:**
-Fixing the Vite import error and successfully running the Landing page.
+The backend calculates information including:
 
----
-
-## 14. Final Landing Page
-
-**Prompt Used:**
-Make the ABTalks landing page look modern, dark, mobile-first, and motivating for students joining the 60 Days Coding Challenge.
-
-**AI Assistance:**
-AI helped refine the landing page structure, responsive layout, navigation, Hero section, typography, dark theme, and motivational messaging.
-
-**Usage:**
-Completing the initial ABTalks Landing page.
+* Completed days
+* Current streak
+* Missed days
+* Current challenge day
+* Challenge completion
 
 ---
 
- # AI Usage Log - ViCodathon 2026
+## 8. Server Features
 
-## **Project: ABTalks**
+### Backend Requirements
 
-**Date:** 8 August 2026
+> now provide the server.js based on time,submissions.json reset to empty when click a button,a profile create,streak updation,a clock running
 
-**TOOLS USING:** ChatGPT, Figma AI, Claude
+The backend was expanded to support:
 
----
-
-## **15. Challenge Page Planning**
-
-### **Prompt Used**
-
-> **Start working on the Challenge page for the ABTalks 60 Days Coding Challenge.**
-
-### **AI Assistance**
-
-AI helped define the Challenge Day screen and suggested sections for:
-
-- Daily coding task
-- Day number
-- Difficulty
-- Today's goal
-- Proof of work
-- Progress
-
-### **Usage**
-
-**Planning the Challenge Day experience.**
+* Time-based challenge progression
+* Submission storage
+* Submission reset
+* Student profile creation
+* Streak calculation
+* Running challenge countdown
+* Challenge progress
+* Student data
+* Challenge start time
 
 ---
 
-## **16. Three-Screen MVP Planning**
+## 9. IST Timezone
 
-### **Prompt Used**
+### Indian Standard Time
 
-> **Design and build the following three screens for ABTalks: Landing Page, Student Dashboard, and Challenge Day.**
+> time should based on ist
 
-### **AI Assistance**
+The challenge timing was configured around:
 
-AI helped structure the MVP around:
+```text
+Asia/Kolkata
+```
 
-- **Landing Page**
-- **Student Dashboard**
-- **Challenge Day**
-- **Current streak**
-- **Today's task**
-- **Challenge progress**
-- **Overall completion**
-- **Student achievements**
-- **Proof of work submission**
-
-### **Usage**
-
-**Defining the minimum viable product for the hackathon.**
+The backend exposes IST-related information and uses the challenge start timestamp to calculate the 24-hour challenge window.
 
 ---
 
-## **17. Student Dashboard Development**
+## 10. Complete Server
 
-### **Prompt Used**
+### Backend Integration
 
-> **Create a Student Dashboard for the ABTalks 60 Days Coding Challenge.**
+> provide server.js
 
-### **AI Assistance**
+A complete Express backend was developed containing routes for:
 
-AI provided a dashboard structure containing:
-
-- **Current streak**
-- **Today's challenge**
-- **Progress through the challenge**
-- **Overall completion**
-- **Achievements**
-- **Motivational content**
-- **Navigation to the daily challenge**
-
-### **Usage**
-
-**Developing the Student Dashboard.**
-
----
-
-## **18. Challenge Day Development**
-
-### **Prompt Used**
-
-> **Create a Challenge Day page where a student can read the day's coding task and submit proof of work.**
-
-### **AI Assistance**
-
-AI provided the structure for:
-
-- **Day number**
-- **Coding task**
-- **Difficulty level**
-- **Today's goal**
-- **GitHub repository/commit**
-- **LinkedIn post**
-- **Submission status**
-- **Completion message**
-
-### **Usage**
-
-**Developing the daily challenge screen.**
+```text
+GET  /
+GET  /api/time
+GET  /api/challenges
+GET  /api/challenges/day/:day
+POST /api/challenge/start
+GET  /api/student
+POST /api/student/profile
+POST /api/submissions
+GET  /api/submissions
+GET  /api/submissions/:day
+POST /api/admin/reset-submissions
+POST /api/admin/full-reset
+```
 
 ---
 
-## **19. Proof of Work Submission**
+## 11. Testing After Closing the Application
 
-### **Prompt Used**
+### Persistence Test
 
-> **Allow students to submit their GitHub repository or commit and LinkedIn post as proof of completing the challenge.**
+> ok now we are testing the project by closing everything
 
-### **AI Assistance**
+The application was tested by closing the frontend/backend and reopening the project.
 
-AI added input fields and submission handling for GitHub and LinkedIn URLs and created a completion state after submission.
-
-### **Usage**
-
-**Implementing proof-of-work functionality.**
+The purpose was to verify that the challenge timer and progress were persisted rather than being reset when the application was closed.
 
 ---
 
-## **20. React Router Issue**
+## 12. Countdown Problem
 
-### **Prompt Used**
+### Timer Debugging
 
-> **I am not using React Router. Help me navigate between the Landing Page, Dashboard, and Challenge Day pages.**
+> i saw time remaining 00:00:00
 
-### **AI Assistance**
+The countdown implementation was investigated because the frontend was receiving or displaying a zero remaining time.
 
-AI suggested using simple browser history and path-based navigation instead of React Router.
+The backend timing logic was reviewed so that the remaining time is calculated from:
 
-### **Usage**
+```text
+challengeStartedAt
++
+24 hours
+-
+current server time
+```
 
-**Connecting the MVP screens without React Router.**
-
----
-
-## **21. React Export Error Fix**
-
-### **Prompt Used**
-
-> **The requested module does not provide an export named `default`. Help me fix the React page/component.**
-
-### **AI Assistance**
-
-AI explained the difference between default and named exports and standardized the page and component files to use default exports.
-
-### **Usage**
-
-**Fixing React import and export errors.**
+rather than depending on a timer stored only in the frontend.
 
 ---
 
-## **22. Dashboard Integration**
+## 13. Dashboard Development
 
-### **Prompt Used**
+### Dashboard
 
-> **Connect the Dashboard page with the existing ABTalks application.**
+> give proper dashboard.jsx
 
-### **AI Assistance**
+A React dashboard was developed to display:
 
-AI helped import the Dashboard component into `App.jsx` and connect it with the navigation flow.
-
-### **Usage**
-
-**Integrating the Student Dashboard into the application.**
-
----
-
-## **23. Challenge Day Navigation**
-
-### **Prompt Used**
-
-> **Make the Dashboard button open the Challenge Day page for Day 12.**
-
-### **AI Assistance**
-
-AI connected the Dashboard challenge button to the Challenge Day screen using the existing navigation approach.
-
-### **Usage**
-
-**Creating the Dashboard → Challenge Day user flow.**
+* Student profile
+* Current streak
+* Current challenge day
+* Challenge progress
+* Completed days
+* Missed days
+* Achievements
+* Current challenge
+* Progress percentage
+* Navigation to the current challenge
 
 ---
 
-## **24. Single App.css Styling**
+## 14. Challenge Start Problem
 
-### **Prompt Used**
+### Start Day 1 Error
 
-> **I don't want separate CSS files. Use one `App.css` file for the complete project.**
+> when i click start 1 it show challenge not available you have not started the 60 day challenge yet
 
-### **AI Assistance**
+The frontend/backend challenge-start flow was debugged.
 
-AI created global styles for:
+The intended flow became:
 
-- **Navbar**
-- **Landing Page**
-- **Dashboard**
-- **Challenge Day**
-- **Cards**
-- **Buttons**
-- **Progress bars**
-- **Forms**
-- **Responsive layouts**
-
-### **Usage**
-
-**Keeping the project's styling centralized in one CSS file.**
-
----
-
-## **25. CSS Debugging**
-
-### **Prompt Used**
-
-> **All pages are working but only the HTML is showing and the CSS is not showing.**
-
-### **AI Assistance**
-
-AI checked the CSS import and provided a complete global `App.css` for the application.
-
-### **Usage**
-
-**Fixing the styling issue and applying the ABTalks visual design.**
+```text
+Start Challenge
+      ↓
+POST /api/challenge/start
+      ↓
+challengeStarted = true
+      ↓
+challengeStartedAt is saved
+      ↓
+Dashboard loads updated state
+      ↓
+Day 1 becomes available
+```
 
 ---
 
-## **26. Dark Theme Refinement**
+## 15. Dashboard and Backend Integration
 
-### **Prompt Used**
+The dashboard was connected to:
 
-> **Make the complete project dark and modern while keeping the design focused on motivating students.**
+```text
+/api/student
+```
 
-### **AI Assistance**
+The dashboard uses the server response to determine:
 
-AI refined the interface using:
-
-- **Dark backgrounds**
-- **Purple highlights**
-- **Yellow accents**
-- **White typography**
-- **Muted text**
-- **Dark cards**
-
-### **Usage**
-
-**Improving the visual identity of ABTalks.**
+* Whether the challenge has started
+* Current day
+* Completed days
+* Streak
+* Progress
+* Missed days
+* Total challenge days
 
 ---
 
-## **27. 390px Mobile Layout**
+## 16. Proof of Work
 
-### **Prompt Used**
+The challenge system supports proof submission using:
 
-> **Make the complete ABTalks project look like a 390px mobile view.**
+```text
+GitHub repository / commit
+LinkedIn post
+```
 
-### **AI Assistance**
+A submission contains information such as:
 
-AI adapted the Landing Page, Dashboard, and Challenge Day screens to a mobile-first **390px layout**.
+```text
+studentId
+day
+github
+linkedin
+submittedAt
+IST date
+timezone
+```
 
-### **Usage**
-
-**Creating the primary mobile experience for the project.**
-
----
-
-## **28. Frontend MVP Integration**
-
-### **Prompt Used**
-
-> **Connect the Landing Page, Student Dashboard, and Challenge Day into one working application.**
-
-### **AI Assistance**
-
-AI helped create the basic flow:
-
-**Landing Page → Dashboard → Challenge Day → Submit Proof → Dashboard**
-
-### **Usage**
-
-**Integrating the three required MVP screens.**
+The backend prevents duplicate submissions for the same challenge day.
 
 ---
 
-## **29. Dynamic Challenge Planning**
+## 17. Submission Rules
 
-### **Prompt Used**
+The backend was designed so that users cannot submit:
 
-> **I need different coding questions for different challenge days. How should I generate and manage the questions?**
-
-### **AI Assistance**
-
-AI suggested moving from static challenge content toward dynamic challenge data and an API-based question generation system.
-
-### **Usage**
-
-**Planning dynamic daily challenges for the 60-day program.**
+* A future challenge day
+* A challenge day that has already been completed
+* A submission without GitHub or LinkedIn proof
+* A submission before the challenge has started
 
 ---
 
-## **30. Next Development Phase**
+## 18. Reset Testing
 
-### **Prompt Used**
+### Submission Reset
 
-> **What should I implement after completing the three screens?**
+The backend includes a reset mechanism for testing:
 
-### **AI Assistance**
+```text
+POST /api/admin/reset-submissions
+```
 
-AI suggested focusing on:
+This clears:
 
-- **Dynamic daily questions**
-- **Question generation API**
-- **Different questions for different days**
-- **Student progress tracking**
-- **Proof-of-work storage**
-- **Streak calculation**
-- **Challenge completion tracking**
+```text
+submissions.json
+```
 
-### **Usage**
+while keeping the student profile and challenge start time.
 
-**Planning the next development phase of ABTalks after completing the initial frontend MVP.**
+---
+
+## 19. Full Reset Testing
+
+A complete reset mechanism was also added:
+
+```text
+POST /api/admin/full-reset
+```
+
+This resets:
+
+* Submissions
+* Student name
+* Avatar
+* Challenge started state
+* Challenge start timestamp
+
+This makes it possible to test the complete challenge flow again from Day 1.
+
+---
+
+## 20. Final Challenge Logic
+
+The final intended challenge behavior is:
+
+```text
+User starts challenge
+        ↓
+Server stores challengeStartedAt
+        ↓
+Day 1 starts
+        ↓
+24-hour countdown
+        ↓
+Day 2 automatically becomes current
+        ↓
+24-hour countdown
+        ↓
+Day 3
+        ↓
+...
+        ↓
+Day 60
+```
+
+Submitting proof does **not** immediately advance the challenge.
+
+The challenge day is determined by elapsed time.
+
+---
+
+## 21. Data Persistence
+
+The project uses JSON files for simple persistent storage during development:
+
+```text
+student.json
+submissions.json
+challenges.json
+```
+
+The server reads and writes these files to maintain the challenge state.
+
+---
+
+## 22. Final Testing Goals
+
+The project was tested around the following scenarios:
+
+### Start
+
+```text
+Start Challenge
+→ Day 1
+→ Countdown begins
+```
+
+### Submit
+
+```text
+Submit Day 1 proof
+→ Day 1 becomes completed
+→ Streak updates
+→ Day remains Day 1 until its time expires
+```
+
+### Time Expiration
+
+```text
+24 hours complete
+→ Day 2 becomes available
+```
+
+### Refresh
+
+```text
+Refresh browser
+→ Same challenge day
+→ Correct remaining time
+```
+
+### Close and Reopen
+
+```text
+Close application
+→ Reopen application
+→ Server recalculates remaining time
+```
+
+### Reset
+
+```text
+Reset submissions
+→ submissions.json becomes []
+```
+
+---
+
+# Development Approach
+
+The project was built iteratively using AI assistance.
+
+The workflow was:
+
+```text
+Idea
+ ↓
+Frontend
+ ↓
+Backend
+ ↓
+API Integration
+ ↓
+Testing
+ ↓
+Bug Detection
+ ↓
+Debugging
+ ↓
+Time-Based Logic
+ ↓
+Streak System
+ ↓
+Persistence
+ ↓
+Reset System
+ ↓
+Final Testing
+ ↓
+Deployment
+```
+
+AI was used as a development assistant for code generation, debugging, architecture changes, testing strategies, and implementation guidance.
+
+---
+
+# Main Technologies
+
+* React
+* JavaScript
+* Node.js
+* Express.js
+* REST APIs
+* JSON file persistence
+* HTML
+* CSS
+* Git/GitHub
+
+---
+
+# Main Features
+
+* 60-day coding challenge
+* Time-based challenge progression
+* 24-hour challenge windows
+* IST-based timing
+* Live countdown
+* Student profile
+* GitHub proof submission
+* LinkedIn proof submission
+* Streak tracking
+* Missed-day tracking
+* Progress tracking
+* Achievements
+* Day navigation
+* Duplicate submission prevention
+* Future-day protection
+* Submission reset
+* Full challenge reset
+* Persistent challenge start time
+* Frontend/backend API integration
+* Deployment
+
+---
+
+
