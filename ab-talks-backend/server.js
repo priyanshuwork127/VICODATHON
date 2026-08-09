@@ -11,61 +11,40 @@ const PORT = process.env.PORT || 5000;
 
 const TIMEZONE = "Asia/Kolkata";
 const TOTAL_DAYS = 60;
-
-// =====================================================
-// TESTING
-// =====================================================
-// 24 hours = 24 * 60 * 60 * 1000
-//
-// For 5-minute testing use:
-// const DAY_MS = 5 * 60 * 1000;
-//
-// IMPORTANT:
-// Restart server + reset challenge after changing this.
-// =====================================================
-
-const DAY_MS =
-    24 * 60 * 60 * 1000;
-
-const STUDENT_ID =
-    "student-001";
+const STUDENT_ID = "student-001";
 
 // =====================================================
 // MIDDLEWARE
 // =====================================================
 
-app.use(cors());
-
 app.use(
-    express.json()
+    cors({
+        origin: true,
+        credentials: true
+    })
 );
+
+app.use(express.json());
 
 // =====================================================
 // FILE PATHS
 // =====================================================
 
-const submissionsFile =
-    path.join(
-        __dirname,
-        "submissions.json"
-    );
+const submissionsFile = path.join(
+    __dirname,
+    "submissions.json"
+);
 
-const studentFile =
-    path.join(
-        __dirname,
-        "student.json"
-    );
+const studentFile = path.join(
+    __dirname,
+    "student.json"
+);
 
 // =====================================================
 // CREATE FILES IF THEY DON'T EXIST
 // =====================================================
 
-if (
-    !fs.existsSync(
-        submissionsFile
-    )
-) {
-
+if (!fs.existsSync(submissionsFile)) {
     fs.writeFileSync(
         submissionsFile,
         "[]",
@@ -73,41 +52,22 @@ if (
     );
 }
 
-if (
-    !fs.existsSync(
-        studentFile
-    )
-) {
-
+if (!fs.existsSync(studentFile)) {
     fs.writeFileSync(
         studentFile,
-
         JSON.stringify(
             {
                 student: {
-
-                    id:
-                        STUDENT_ID,
-
-                    name:
-                        "",
-
-                    avatar:
-                        null,
-
-                    challengeStarted:
-                        false,
-
-                    challengeStartedAt:
-                        null
+                    id: STUDENT_ID,
+                    name: "",
+                    avatar: null,
+                    challengeStarted: false,
+                    challengeStartedAt: null
                 }
             },
-
             null,
-
             2
         ),
-
         "utf8"
     );
 }
@@ -116,24 +76,15 @@ if (
 // JSON HELPERS
 // =====================================================
 
-function readJsonFile(
-    filePath
-) {
-
+function readJsonFile(filePath) {
     try {
-
-        const data =
-            fs.readFileSync(
-                filePath,
-                "utf8"
-            );
-
-        return JSON.parse(
-            data
+        const data = fs.readFileSync(
+            filePath,
+            "utf8"
         );
 
+        return JSON.parse(data);
     } catch (error) {
-
         console.error(
             "READ JSON ERROR:",
             error
@@ -143,55 +94,43 @@ function readJsonFile(
     }
 }
 
-function saveJsonFile(
-    filePath,
-    data
-) {
-
+function saveJsonFile(filePath, data) {
     fs.writeFileSync(
         filePath,
-
         JSON.stringify(
             data,
             null,
             2
         ),
-
         "utf8"
     );
 }
 
 // =====================================================
-// IST TIME HELPERS
+// TIME HELPERS
 // =====================================================
 
 function getNow() {
-
     return new Date();
 }
 
 // =====================================================
-// GET INDIA DATE
+// GET INDIA DATE STRING
+//
+// Example:
+// 2026-08-09
 // =====================================================
 
 function getIndiaDateString(
     date = new Date()
 ) {
-
     return new Intl.DateTimeFormat(
         "en-CA",
         {
-            timeZone:
-                TIMEZONE,
-
-            year:
-                "numeric",
-
-            month:
-                "2-digit",
-
-            day:
-                "2-digit"
+            timeZone: TIMEZONE,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
         }
     ).format(date);
 }
@@ -203,72 +142,45 @@ function getIndiaDateString(
 function getIndiaDateParts(
     date = new Date()
 ) {
-
     const parts =
         new Intl.DateTimeFormat(
             "en-US",
             {
-                timeZone:
-                    TIMEZONE,
-
-                year:
-                    "numeric",
-
-                month:
-                    "2-digit",
-
-                day:
-                    "2-digit",
-
-                hour:
-                    "2-digit",
-
-                minute:
-                    "2-digit",
-
-                second:
-                    "2-digit",
-
-                hour12:
-                    false
+                timeZone: TIMEZONE,
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
             }
         ).formatToParts(date);
 
     const result = {};
 
-    parts.forEach(
-        (part) => {
-
-            if (
-                part.type !==
-                "literal"
-            ) {
-
-                result[
-                    part.type
-                ] =
-                    Number(
-                        part.value
-                    );
-            }
+    parts.forEach((part) => {
+        if (part.type !== "literal") {
+            result[part.type] =
+                Number(part.value);
         }
-    );
+    });
 
     return result;
 }
 
 // =====================================================
-// IST MIDNIGHT
+// GET INDIA MIDNIGHT
+//
+// Returns UTC Date representing
+// today's 12:00 AM IST.
 // =====================================================
 
 function getIndiaMidnight(
     date = new Date()
 ) {
-
     const parts =
-        getIndiaDateParts(
-            date
-        );
+        getIndiaDateParts(date);
 
     return new Date(
         Date.UTC(
@@ -279,49 +191,39 @@ function getIndiaMidnight(
             0,
             0
         ) -
-        (
-            5.5 *
-            60 *
-            60 *
-            1000
-        )
+        (5.5 * 60 * 60 * 1000)
     );
 }
 
 // =====================================================
-// IST TIME INFO
+// GET IST TIME INFO
 // =====================================================
 
 function getISTTimeInfo() {
-
-    const now =
-        getNow();
+    const now = getNow();
 
     const parts =
-        getIndiaDateParts(
-            now
-        );
+        getIndiaDateParts(now);
 
     const date =
-        getIndiaDateString(
-            now
-        );
+        getIndiaDateString(now);
 
     return {
-
-        timezone:
-            TIMEZONE,
+        timezone: TIMEZONE,
 
         date,
 
-        hour:
-            parts.hour,
+        year: parts.year,
 
-        minute:
-            parts.minute,
+        month: parts.month,
 
-        second:
-            parts.second,
+        day: parts.day,
+
+        hour: parts.hour,
+
+        minute: parts.minute,
+
+        second: parts.second,
 
         iso:
             now.toISOString(),
@@ -332,10 +234,8 @@ function getISTTimeInfo() {
                 {
                     timeZone:
                         TIMEZONE,
-
                     dateStyle:
                         "medium",
-
                     timeStyle:
                         "medium"
                 }
@@ -344,215 +244,195 @@ function getISTTimeInfo() {
 }
 
 // =====================================================
-// CHALLENGE TIME
+// GET DAYS BETWEEN TWO IST CALENDAR DATES
+//
+// This compares calendar dates, not hours.
+//
+// Example:
+//
+// Start date = 2026-08-09
+// Today      = 2026-08-09
+// Difference = 0
+//
+// Therefore Day = 1
+//
+// Start date = 2026-08-09
+// Today      = 2026-08-10
+// Difference = 1
+//
+// Therefore Day = 2
 // =====================================================
+
+function getCalendarDayDifference(
+    startDateString,
+    currentDateString
+) {
+    const startDate =
+        new Date(
+            `${startDateString}T00:00:00+05:30`
+        );
+
+    const currentDate =
+        new Date(
+            `${currentDateString}T00:00:00+05:30`
+        );
+
+    const differenceMs =
+        currentDate.getTime() -
+        startDate.getTime();
+
+    return Math.floor(
+        differenceMs /
+            (24 * 60 * 60 * 1000)
+    );
+}
+
+// =====================================================
+// CHALLENGE TIME INFO
 //
-// Challenge progresses according to elapsed time.
+// IMPORTANT:
 //
-// Day 1:
-// start -> +24 hours
+// The timer is ALWAYS:
 //
-// Day 2:
-// +24 -> +48 hours
+// Today 12:00 AM
+//        ↓
+// Tomorrow 12:00 AM
 //
-// Day 3:
-// +48 -> +72 hours
+// It does NOT depend on the time
+// when the student started the challenge.
 //
-// etc.
-//
-// NOT based on midnight.
+// The challenge start date determines
+// which DAY we are currently on.
 // =====================================================
 
 function getChallengeTimeInfo(
     challengeStartedAt
 ) {
-
-    // =================================================
-    // NOT STARTED
-    // =================================================
-
-    if (
-        !challengeStartedAt
-    ) {
-
-        return {
-
-            currentDay:
-                1,
-
-            elapsedMs:
-                0,
-
-            remainingMs:
-                DAY_MS,
-
-            expired:
-                false,
-
-            challengeExpired:
-                false,
-
-            dayStart:
-                null,
-
-            dayEnd:
-                null
-        };
-    }
-
-    // =================================================
-    // START DATE
-    // =================================================
-
-    const start =
-        new Date(
-            challengeStartedAt
-        );
-
     const now =
         getNow();
 
-    // =================================================
-    // INVALID DATE
-    // =================================================
+    // -------------------------------------------------
+    // TODAY'S IST DATE
+    // -------------------------------------------------
 
-    if (
-        Number.isNaN(
-            start.getTime()
-        )
-    ) {
+    const today =
+        getIndiaDateString(now);
 
-        console.error(
-            "Invalid challengeStartedAt:",
-            challengeStartedAt
+    // -------------------------------------------------
+    // TODAY MIDNIGHT
+    // -------------------------------------------------
+
+    const dayStart =
+        getIndiaMidnight(now);
+
+    // -------------------------------------------------
+    // TOMORROW MIDNIGHT
+    // -------------------------------------------------
+
+    const dayEnd =
+        new Date(
+            dayStart.getTime() +
+                24 * 60 * 60 * 1000
         );
 
+    // -------------------------------------------------
+    // REMAINING TIME
+    // -------------------------------------------------
+
+    const remainingMs =
+        Math.max(
+            0,
+            dayEnd.getTime() -
+                now.getTime()
+        );
+
+    // -------------------------------------------------
+    // NOT STARTED
+    // -------------------------------------------------
+
+    if (!challengeStartedAt) {
         return {
+            currentDay: 1,
 
-            currentDay:
-                1,
+            today,
 
-            elapsedMs:
-                0,
-
-            remainingMs:
-                DAY_MS,
+            remainingMs,
 
             expired:
-                false,
-
-            challengeExpired:
-                false,
+                remainingMs <= 0,
 
             dayStart:
-                null,
+                dayStart.toISOString(),
 
             dayEnd:
-                null
+                dayEnd.toISOString(),
+
+            timezone:
+                TIMEZONE
         };
     }
 
-    // =================================================
-    // ELAPSED
-    // =================================================
+    // -------------------------------------------------
+    // START DATE IN INDIA
+    // -------------------------------------------------
 
-    const elapsedMs =
-        Math.max(
-            0,
-
-            now.getTime() -
-            start.getTime()
+    const startDate =
+        getIndiaDateString(
+            new Date(
+                challengeStartedAt
+            )
         );
 
-    // =================================================
-    // RAW DAY
-    // =================================================
+    // -------------------------------------------------
+    // CALCULATE DAY
+    // -------------------------------------------------
 
-    const rawDay =
-        Math.floor(
-            elapsedMs /
-            DAY_MS
+    let currentDay =
+        getCalendarDayDifference(
+            startDate,
+            today
         ) + 1;
 
-    // =================================================
-    // CHALLENGE EXPIRED
-    // =================================================
+    // -------------------------------------------------
+    // MINIMUM DAY = 1
+    // -------------------------------------------------
 
-    const challengeExpired =
-        rawDay >
-        TOTAL_DAYS;
+    if (currentDay < 1) {
+        currentDay = 1;
+    }
 
-    // =================================================
-    // CURRENT DAY
-    // =================================================
+    // -------------------------------------------------
+    // MAXIMUM DAY = 60
+    // -------------------------------------------------
 
-    const currentDay =
-        Math.min(
-            rawDay,
-            TOTAL_DAYS
-        );
+    if (currentDay > TOTAL_DAYS) {
+        currentDay = TOTAL_DAYS;
+    }
 
-    // =================================================
-    // DAY START
-    // =================================================
-
-    const dayStart =
-        start.getTime() +
-        (
-            (currentDay - 1) *
-            DAY_MS
-        );
-
-    // =================================================
-    // DAY END
-    // =================================================
-
-    const dayEnd =
-        dayStart +
-        DAY_MS;
-
-    // =================================================
-    // REMAINING
-    // =================================================
-
-    const remainingMs =
-        challengeExpired
-
-            ? 0
-
-            : Math.max(
-                0,
-
-                dayEnd -
-                now.getTime()
-            );
-
-    // =================================================
+    // -------------------------------------------------
     // RETURN
-    // =================================================
+    // -------------------------------------------------
 
     return {
-
         currentDay,
 
-        elapsedMs,
+        startDate,
+
+        today,
 
         remainingMs,
 
         expired:
             remainingMs <= 0,
 
-        challengeExpired,
-
         dayStart:
-            new Date(
-                dayStart
-            ).toISOString(),
+            dayStart.toISOString(),
 
         dayEnd:
-            new Date(
-                dayEnd
-            ).toISOString()
+            dayEnd.toISOString(),
+
+        timezone:
+            TIMEZONE
     };
 }
 
@@ -564,10 +444,9 @@ function calculateChallengeProgress(
     student,
     submissions
 ) {
-
-    // =================================================
+    // -------------------------------------------------
     // STUDENT SUBMISSIONS
-    // =================================================
+    // -------------------------------------------------
 
     const studentSubmissions =
         submissions.filter(
@@ -576,14 +455,13 @@ function calculateChallengeProgress(
                 student.id
         );
 
-    // =================================================
+    // -------------------------------------------------
     // UNIQUE COMPLETED DAYS
-    // =================================================
+    // -------------------------------------------------
 
     const completedDays =
         [
             ...new Set(
-
                 studentSubmissions
                     .map(
                         (submission) =>
@@ -591,65 +469,45 @@ function calculateChallengeProgress(
                                 submission.day
                             )
                     )
-
                     .filter(
                         (day) =>
                             Number.isInteger(
                                 day
                             ) &&
                             day >= 1 &&
-                            day <= TOTAL_DAYS
+                            day <=
+                                TOTAL_DAYS
                     )
             )
         ].sort(
-            (a, b) =>
-                a - b
+            (a, b) => a - b
         );
 
     // =================================================
-    // NOT STARTED
+    // CHALLENGE NOT STARTED
     // =================================================
 
     if (
         !student.challengeStarted
     ) {
-
-        const notStartedTime = {
-
-            remainingMs:
-                DAY_MS,
-
-            expired:
-                false,
-
-            dayStart:
-                null,
-
-            dayEnd:
-                null,
-
-            timezone:
-                TIMEZONE
-        };
+        const timeInfo =
+            getChallengeTimeInfo(
+                null
+            );
 
         return {
+            started: false,
 
-            started:
-                false,
-
-            currentDay:
-                1,
+            currentDay: 1,
 
             totalDays:
                 TOTAL_DAYS,
 
             completedDays,
 
-            missedDays:
-                [],
+            missedDays: [],
 
-            streak:
-                0,
+            streak: 0,
 
             todayCompleted:
                 false,
@@ -657,19 +515,44 @@ function calculateChallengeProgress(
             challengeCompleted:
                 false,
 
-            challengeExpired:
-                false,
+            deadline: {
+                remainingMs:
+                    timeInfo.remainingMs,
 
-            time:
-                notStartedTime,
+                expired:
+                    timeInfo.expired,
 
-            deadline:
-                notStartedTime
+                dayStart:
+                    timeInfo.dayStart,
+
+                dayEnd:
+                    timeInfo.dayEnd,
+
+                timezone:
+                    TIMEZONE
+            },
+
+            time: {
+                remainingMs:
+                    timeInfo.remainingMs,
+
+                expired:
+                    timeInfo.expired,
+
+                dayStart:
+                    timeInfo.dayStart,
+
+                dayEnd:
+                    timeInfo.dayEnd,
+
+                timezone:
+                    TIMEZONE
+            }
         };
     }
 
     // =================================================
-    // TIME INFORMATION
+    // TIME INFO
     // =================================================
 
     const timeInfo =
@@ -691,26 +574,24 @@ function calculateChallengeProgress(
 
     // =================================================
     // MISSED DAYS
+    //
+    // Every previous day which was not
+    // submitted is considered missed.
     // =================================================
 
-    const missedDays =
-        [];
+    const missedDays = [];
 
     for (
         let day = 1;
         day < currentDay;
         day++
     ) {
-
         if (
             !completedDays.includes(
                 day
             )
         ) {
-
-            missedDays.push(
-                day
-            );
+            missedDays.push(day);
         }
     }
 
@@ -718,13 +599,11 @@ function calculateChallengeProgress(
     // STREAK
     // =================================================
 
-    let streak =
-        0;
+    let streak = 0;
 
     if (
         completedDays.length > 0
     ) {
-
         let expectedDay =
             Math.max(
                 ...completedDays
@@ -733,23 +612,17 @@ function calculateChallengeProgress(
         for (
             let i =
                 completedDays.length - 1;
-
             i >= 0;
-
             i--
         ) {
-
             if (
                 completedDays[i] ===
                 expectedDay
             ) {
-
                 streak++;
 
                 expectedDay--;
-
             } else {
-
                 break;
             }
         }
@@ -764,38 +637,11 @@ function calculateChallengeProgress(
         TOTAL_DAYS;
 
     // =================================================
-    // TIME OBJECT
-    // =================================================
-
-    const time = {
-
-        remainingMs:
-            timeInfo.remainingMs,
-
-        expired:
-            timeInfo.expired,
-
-        challengeExpired:
-            timeInfo.challengeExpired,
-
-        dayStart:
-            timeInfo.dayStart,
-
-        dayEnd:
-            timeInfo.dayEnd,
-
-        timezone:
-            TIMEZONE
-    };
-
-    // =================================================
     // RETURN
     // =================================================
 
     return {
-
-        started:
-            true,
+        started: true,
 
         currentDay,
 
@@ -812,14 +658,49 @@ function calculateChallengeProgress(
 
         challengeCompleted,
 
-        challengeExpired:
-            timeInfo.challengeExpired,
+        // -------------------------------------------------
+        // DEADLINE
+        //
+        // This is what ChallengeDay.jsx reads.
+        // -------------------------------------------------
 
-        time,
+        deadline: {
+            remainingMs:
+                timeInfo.remainingMs,
 
-        // Keep deadline for compatibility
-        deadline:
-            time
+            expired:
+                timeInfo.expired,
+
+            dayStart:
+                timeInfo.dayStart,
+
+            dayEnd:
+                timeInfo.dayEnd,
+
+            timezone:
+                TIMEZONE
+        },
+
+        // -------------------------------------------------
+        // TIME
+        // -------------------------------------------------
+
+        time: {
+            remainingMs:
+                timeInfo.remainingMs,
+
+            expired:
+                timeInfo.expired,
+
+            dayStart:
+                timeInfo.dayStart,
+
+            dayEnd:
+                timeInfo.dayEnd,
+
+            timezone:
+                TIMEZONE
+        }
     };
 }
 
@@ -830,17 +711,17 @@ function calculateChallengeProgress(
 app.get(
     "/",
     (req, res) => {
-
         res.json({
-
-            success:
-                true,
+            success: true,
 
             message:
                 "ABTalks Backend API is running 🚀",
 
             timezone:
                 TIMEZONE,
+
+            totalDays:
+                TOTAL_DAYS,
 
             time:
                 getISTTimeInfo()
@@ -855,11 +736,8 @@ app.get(
 app.get(
     "/api/time",
     (req, res) => {
-
         res.json({
-
-            success:
-                true,
+            success: true,
 
             timezone:
                 TIMEZONE,
@@ -877,17 +755,13 @@ app.get(
 app.get(
     "/api/challenges",
     (req, res) => {
-
         res.json({
-
-            success:
-                true,
+            success: true,
 
             total:
                 challenges.length,
 
-            challenges:
-                challenges
+            challenges
         });
     }
 );
@@ -899,28 +773,19 @@ app.get(
 app.get(
     "/api/challenges/day/:day",
     (req, res) => {
-
         try {
-
             const day =
                 Number(
                     req.params.day
                 );
 
             if (
-                !Number.isInteger(
-                    day
-                ) ||
+                !Number.isInteger(day) ||
                 day < 1 ||
                 day > TOTAL_DAYS
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         `Day must be between 1 and ${TOTAL_DAYS}`
@@ -932,20 +797,12 @@ app.get(
                     (item) =>
                         Number(
                             item.day
-                        ) ===
-                        day
+                        ) === day
                 );
 
-            if (
-                !challenge
-            ) {
-
-                return res.status(
-                    404
-                ).json({
-
-                    success:
-                        false,
+            if (!challenge) {
+                return res.status(404).json({
+                    success: false,
 
                     message:
                         "Challenge not found"
@@ -953,26 +810,18 @@ app.get(
             }
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 ...challenge
             });
-
         } catch (error) {
-
             console.error(
                 "CHALLENGE ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Unable to load challenge"
@@ -988,39 +837,32 @@ app.get(
 app.post(
     "/api/challenge/start",
     (req, res) => {
-
         try {
-
             const {
                 studentId,
                 name,
                 avatar
             } = req.body;
 
-            // =================================================
-            // VALIDATION
-            // =================================================
+            // -------------------------------------------------
+            // VALIDATE STUDENT
+            // -------------------------------------------------
 
             if (
                 studentId !==
                 STUDENT_ID
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         "Invalid student ID"
                 });
             }
 
-            // =================================================
-            // STUDENT
-            // =================================================
+            // -------------------------------------------------
+            // READ STUDENT
+            // -------------------------------------------------
 
             const studentData =
                 readJsonFile(
@@ -1030,59 +872,58 @@ app.post(
             const student =
                 studentData.student;
 
-            if (
-                !student
-            ) {
-
-                return res.status(
-                    500
-                ).json({
-
-                    success:
-                        false,
+            if (!student) {
+                return res.status(500).json({
+                    success: false,
 
                     message:
                         "Student not found"
                 });
             }
 
-            // =================================================
+            // -------------------------------------------------
             // PROFILE
-            // =================================================
+            // -------------------------------------------------
 
             if (
                 typeof name ===
                 "string"
             ) {
-
                 student.name =
                     name.trim();
             }
 
             if (
-                avatar !==
-                undefined
+                avatar !== undefined
             ) {
-
                 student.avatar =
                     avatar;
             }
 
-            // =================================================
+            // -------------------------------------------------
             // START ONLY ONCE
-            // =================================================
+            //
+            // IMPORTANT:
+            //
+            // We save the starting timestamp.
+            //
+            // But the timer itself is based on
+            // midnight-to-midnight IST.
+            // -------------------------------------------------
 
             if (
                 !student.challengeStarted
             ) {
-
                 student.challengeStarted =
                     true;
 
                 student.challengeStartedAt =
-                    new Date()
-                        .toISOString();
+                    new Date().toISOString();
             }
+
+            // -------------------------------------------------
+            // SAVE
+            // -------------------------------------------------
 
             studentData.student =
                 student;
@@ -1092,9 +933,9 @@ app.post(
                 studentData
             );
 
-            // =================================================
+            // -------------------------------------------------
             // PROGRESS
-            // =================================================
+            // -------------------------------------------------
 
             const submissions =
                 readJsonFile(
@@ -1107,10 +948,12 @@ app.post(
                     submissions
                 );
 
-            res.json({
+            // -------------------------------------------------
+            // RESPONSE
+            // -------------------------------------------------
 
-                success:
-                    true,
+            res.json({
+                success: true,
 
                 message:
                     "Challenge started successfully 🚀",
@@ -1123,20 +966,14 @@ app.post(
                 istTime:
                     getISTTimeInfo()
             });
-
         } catch (error) {
-
             console.error(
                 "START ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Could not start challenge",
@@ -1155,9 +992,7 @@ app.post(
 app.get(
     "/api/student",
     (req, res) => {
-
         try {
-
             const studentData =
                 readJsonFile(
                     studentFile
@@ -1178,12 +1013,9 @@ app.get(
                 );
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 student: {
-
                     id:
                         student.id,
 
@@ -1205,20 +1037,14 @@ app.get(
                 istTime:
                     getISTTimeInfo()
             });
-
         } catch (error) {
-
             console.error(
                 "STUDENT ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Could not load student data",
@@ -1231,15 +1057,13 @@ app.get(
 );
 
 // =====================================================
-// UPDATE PROFILE
+// CREATE / UPDATE PROFILE
 // =====================================================
 
 app.post(
     "/api/student/profile",
     (req, res) => {
-
         try {
-
             const {
                 name,
                 avatar
@@ -1247,16 +1071,11 @@ app.post(
 
             if (
                 typeof name !==
-                "string" ||
+                    "string" ||
                 !name.trim()
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         "Name is required"
@@ -1275,10 +1094,8 @@ app.post(
                 name.trim();
 
             if (
-                avatar !==
-                undefined
+                avatar !== undefined
             ) {
-
                 student.avatar =
                     avatar;
             }
@@ -1292,29 +1109,21 @@ app.post(
             );
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 message:
                     "Profile updated successfully",
 
                 student
             });
-
         } catch (error) {
-
             console.error(
                 "PROFILE ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Unable to update profile"
@@ -1330,9 +1139,7 @@ app.post(
 app.post(
     "/api/submissions",
     (req, res) => {
-
         try {
-
             const {
                 studentId,
                 day,
@@ -1340,26 +1147,25 @@ app.post(
                 linkedin
             } = req.body;
 
-            // =================================================
-            // VALIDATION
-            // =================================================
+            // -------------------------------------------------
+            // VALIDATE STUDENT
+            // -------------------------------------------------
 
             if (
                 studentId !==
                 STUDENT_ID
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         "Invalid student ID"
                 });
             }
+
+            // -------------------------------------------------
+            // VALIDATE DAY
+            // -------------------------------------------------
 
             const dayNumber =
                 Number(day);
@@ -1371,39 +1177,33 @@ app.post(
                 dayNumber < 1 ||
                 dayNumber > TOTAL_DAYS
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         "Invalid challenge day"
                 });
             }
 
+            // -------------------------------------------------
+            // VALIDATE PROOF
+            // -------------------------------------------------
+
             if (
                 !github &&
                 !linkedin
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         "Please submit GitHub or LinkedIn proof"
                 });
             }
 
-            // =================================================
+            // -------------------------------------------------
             // STUDENT
-            // =================================================
+            // -------------------------------------------------
 
             const studentData =
                 readJsonFile(
@@ -1416,27 +1216,26 @@ app.post(
             if (
                 !student.challengeStarted
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         "Challenge has not been started"
                 });
             }
 
-            // =================================================
-            // CURRENT SERVER DAY
-            // =================================================
+            // -------------------------------------------------
+            // READ SUBMISSIONS
+            // -------------------------------------------------
 
             const submissions =
                 readJsonFile(
                     submissionsFile
                 );
+
+            // -------------------------------------------------
+            // CURRENT PROGRESS
+            // -------------------------------------------------
 
             const progress =
                 calculateChallengeProgress(
@@ -1447,95 +1246,59 @@ app.post(
             const currentDay =
                 progress.currentDay;
 
-            // =================================================
-            // CHALLENGE FINISHED
-            // =================================================
-
-            if (
-                progress.challengeExpired
-            ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
-
-                    message:
-                        "The 60 Day Challenge has ended."
-                });
-            }
-
-            // =================================================
+            // -------------------------------------------------
             // ONLY CURRENT DAY
-            // =================================================
+            // -------------------------------------------------
 
             if (
                 dayNumber !==
                 currentDay
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         `You can only submit Day ${currentDay} right now.`
                 });
             }
 
-            // =================================================
+            // -------------------------------------------------
             // PREVENT DUPLICATE
-            // =================================================
+            // -------------------------------------------------
 
             if (
                 progress.completedDays.includes(
                     dayNumber
                 )
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
                         `Day ${dayNumber} is already completed.`
                 });
             }
 
-            // =================================================
-            // CHECK TIMER
-            // =================================================
+            // -------------------------------------------------
+            // PREVENT SUBMISSION AFTER MIDNIGHT
+            // -------------------------------------------------
 
             if (
-                progress.time.expired
+                progress.deadline.expired
             ) {
-
-                return res.status(
-                    400
-                ).json({
-
-                    success:
-                        false,
+                return res.status(400).json({
+                    success: false,
 
                     message:
-                        "Today's time window has expired."
+                        "Today's challenge time has expired."
                 });
             }
 
-            // =================================================
-            // SAVE SUBMISSION
-            // =================================================
+            // -------------------------------------------------
+            // CREATE SUBMISSION
+            // -------------------------------------------------
 
             const submission = {
-
                 id:
                     Date.now(),
 
@@ -1556,8 +1319,7 @@ app.post(
                         : null,
 
                 submittedAt:
-                    new Date()
-                        .toISOString(),
+                    new Date().toISOString(),
 
                 istDate:
                     getIndiaDateString(),
@@ -1565,6 +1327,10 @@ app.post(
                 timezone:
                     TIMEZONE
             };
+
+            // -------------------------------------------------
+            // SAVE
+            // -------------------------------------------------
 
             submissions.push(
                 submission
@@ -1575,9 +1341,9 @@ app.post(
                 submissions
             );
 
-            // =================================================
+            // -------------------------------------------------
             // UPDATED PROGRESS
-            // =================================================
+            // -------------------------------------------------
 
             const updatedProgress =
                 calculateChallengeProgress(
@@ -1585,12 +1351,12 @@ app.post(
                     submissions
                 );
 
-            res.status(
-                201
-            ).json({
+            // -------------------------------------------------
+            // RESPONSE
+            // -------------------------------------------------
 
-                success:
-                    true,
+            res.status(201).json({
+                success: true,
 
                 message:
                     `Day ${dayNumber} completed successfully 🚀`,
@@ -1603,20 +1369,14 @@ app.post(
                 istTime:
                     getISTTimeInfo()
             });
-
         } catch (error) {
-
             console.error(
                 "SUBMISSION ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Failed to save submission",
@@ -1635,33 +1395,28 @@ app.post(
 app.get(
     "/api/submissions",
     (req, res) => {
-
         try {
-
             const submissions =
                 readJsonFile(
                     submissionsFile
                 );
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 count:
                     submissions.length,
 
                 submissions
             });
-
         } catch (error) {
+            console.error(
+                "SUBMISSIONS ERROR:",
+                error
+            );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Unable to read submissions"
@@ -1677,9 +1432,7 @@ app.get(
 app.get(
     "/api/submissions/:day",
     (req, res) => {
-
         try {
-
             const day =
                 Number(
                     req.params.day
@@ -1694,17 +1447,14 @@ app.get(
                 submissions.find(
                     (item) =>
                         item.studentId ===
-                        STUDENT_ID &&
+                            STUDENT_ID &&
                         Number(
                             item.day
-                        ) ===
-                        day
+                        ) === day
                 );
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 submitted:
                     Boolean(
@@ -1715,15 +1465,14 @@ app.get(
                     submission ||
                     null
             });
-
         } catch (error) {
+            console.error(
+                "SUBMISSION CHECK ERROR:",
+                error
+            );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Unable to check submission"
@@ -1734,44 +1483,40 @@ app.get(
 
 // =====================================================
 // RESET SUBMISSIONS
+//
+// POST /api/admin/reset-submissions
+//
+// This deletes all proof submissions.
+//
+// Student profile and challenge start
+// remain unchanged.
 // =====================================================
 
 app.post(
     "/api/admin/reset-submissions",
     (req, res) => {
-
         try {
-
             saveJsonFile(
                 submissionsFile,
                 []
             );
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 message:
                     "All submissions have been reset.",
 
-                submissions:
-                    []
+                submissions: []
             });
-
         } catch (error) {
-
             console.error(
                 "RESET ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Unable to reset submissions"
@@ -1782,31 +1527,35 @@ app.post(
 
 // =====================================================
 // FULL RESET
+//
+// POST /api/admin/full-reset
+//
+// Resets:
+//
+// - submissions
+// - profile
+// - challenge start
 // =====================================================
 
 app.post(
     "/api/admin/full-reset",
     (req, res) => {
-
         try {
-
-            // =================================================
+            // -------------------------------------------------
             // RESET SUBMISSIONS
-            // =================================================
+            // -------------------------------------------------
 
             saveJsonFile(
                 submissionsFile,
                 []
             );
 
-            // =================================================
+            // -------------------------------------------------
             // RESET STUDENT
-            // =================================================
+            // -------------------------------------------------
 
             const resetStudent = {
-
                 student: {
-
                     id:
                         STUDENT_ID,
 
@@ -1830,9 +1579,7 @@ app.post(
             );
 
             res.json({
-
-                success:
-                    true,
+                success: true,
 
                 message:
                     "Complete challenge reset successfully.",
@@ -1840,23 +1587,16 @@ app.post(
                 student:
                     resetStudent.student,
 
-                submissions:
-                    []
+                submissions: []
             });
-
         } catch (error) {
-
             console.error(
                 "FULL RESET ERROR:",
                 error
             );
 
-            res.status(
-                500
-            ).json({
-
-                success:
-                    false,
+            res.status(500).json({
+                success: false,
 
                 message:
                     "Unable to reset challenge"
@@ -1866,18 +1606,38 @@ app.post(
 );
 
 // =====================================================
+// HEALTH CHECK
+// =====================================================
+
+app.get(
+    "/api/health",
+    (req, res) => {
+        res.json({
+            success: true,
+
+            status:
+                "healthy",
+
+            server:
+                "ABTalks Backend",
+
+            timezone:
+                TIMEZONE,
+
+            time:
+                getISTTimeInfo()
+        });
+    }
+);
+
+// =====================================================
 // 404
 // =====================================================
 
 app.use(
     (req, res) => {
-
-        res.status(
-            404
-        ).json({
-
-            success:
-                false,
+        res.status(404).json({
+            success: false,
 
             message:
                 `Route not found: ${req.method} ${req.originalUrl}`
@@ -1891,18 +1651,13 @@ app.use(
 
 app.use(
     (err, req, res, next) => {
-
         console.error(
             "GLOBAL ERROR:",
             err
         );
 
-        res.status(
-            500
-        ).json({
-
-            success:
-                false,
+        res.status(500).json({
+            success: false,
 
             message:
                 "Internal server error",
@@ -1914,61 +1669,12 @@ app.use(
 );
 
 // =====================================================
-// GET STUDENT DATA
-// =====================================================
-
-app.get(
-    "/api/student",
-    (req, res) => {
-
-        try {
-
-            const studentData =
-                readJsonFile(studentFile);
-
-            const submissions =
-                readJsonFile(submissionsFile);
-
-            const student =
-                studentData.student;
-
-            const progress =
-                calculateChallengeProgress(student, submissions);
-
-            res.json({
-
-                success: true,
-
-                student,
-
-                progress
-            });
-
-        } catch (error) {
-
-            console.error(
-                "STUDENT FETCH ERROR:",
-                error
-            );
-
-            res.status(500).json({
-
-                success: false,
-
-                message: "Unable to load student data"
-            });
-        }
-    }
-);
-
-// =====================================================
 // START SERVER
 // =====================================================
 
 app.listen(
     PORT,
     () => {
-
         console.log(
             "======================================"
         );
@@ -1990,7 +1696,7 @@ app.listen(
         );
 
         console.log(
-            `Challenge duration: ${DAY_MS / 1000 / 60 / 60} hours per day`
+            "Day schedule: 12:00 AM → 12:00 AM"
         );
 
         console.log(

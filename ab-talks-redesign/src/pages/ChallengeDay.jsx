@@ -5,14 +5,14 @@ import React, {
 
 function ChallengeDay({ navigate }) {
 
-    const API_URL ="https://trustworthy-hope-production-749d.up.railway.app";
+    const API_URL =
+        "https://trustworthy-hope-production-749d.up.railway.app";
 
     const STUDENT_ID =
         "student-001";
 
     const TOTAL_DAYS =
         60;
-
 
     // =====================================================
     // STATE
@@ -51,9 +51,11 @@ function ChallengeDay({ navigate }) {
     const [deadlineExpired, setDeadlineExpired] =
         useState(false);
 
+    const [serverNow, setServerNow] =
+        useState(null);
 
     // =====================================================
-    // GET DAY FROM URL
+    // DAY FROM URL
     // =====================================================
 
     const path =
@@ -64,6 +66,50 @@ function ChallengeDay({ navigate }) {
             path.split("/")[2]
         ) || 1;
 
+    // =====================================================
+    // FORMAT TIME
+    // =====================================================
+
+    const formatTime =
+        (milliseconds) => {
+
+            if (
+                milliseconds === null ||
+                milliseconds <= 0
+            ) {
+                return "00:00:00";
+            }
+
+            const totalSeconds =
+                Math.floor(
+                    milliseconds / 1000
+                );
+
+            const hours =
+                Math.floor(
+                    totalSeconds / 3600
+                );
+
+            const minutes =
+                Math.floor(
+                    (totalSeconds % 3600) /
+                    60
+                );
+
+            const seconds =
+                totalSeconds % 60;
+
+            return (
+                String(hours)
+                    .padStart(2, "0") +
+                ":" +
+                String(minutes)
+                    .padStart(2, "0") +
+                ":" +
+                String(seconds)
+                    .padStart(2, "0")
+            );
+        };
 
     // =====================================================
     // FETCH STUDENT
@@ -77,18 +123,15 @@ function ChallengeDay({ navigate }) {
                     `${API_URL}/api/student`
                 );
 
-
             if (!response.ok) {
 
                 throw new Error(
-                    "Unable to load student data."
+                    "Unable to connect to server."
                 );
             }
 
-
             const data =
                 await response.json();
-
 
             if (!data.success) {
 
@@ -98,10 +141,8 @@ function ChallengeDay({ navigate }) {
                 );
             }
 
-
             return data;
         };
-
 
     // =====================================================
     // LOAD CHALLENGE
@@ -112,31 +153,23 @@ function ChallengeDay({ navigate }) {
 
             try {
 
-                setLoading(
-                    true
-                );
-
+                setLoading(true);
                 setError("");
 
-                setSubmitError("");
-
-
-                // -----------------------------------------
+                // -------------------------------------------------
                 // STUDENT
-                // -----------------------------------------
+                // -------------------------------------------------
 
                 const student =
                     await fetchStudentData();
-
 
                 setStudentData(
                     student
                 );
 
-
-                // -----------------------------------------
+                // -------------------------------------------------
                 // CHECK STARTED
-                // -----------------------------------------
+                // -------------------------------------------------
 
                 if (
                     !student.student.challengeStarted
@@ -149,22 +182,18 @@ function ChallengeDay({ navigate }) {
                     return;
                 }
 
-
-                // -----------------------------------------
+                // -------------------------------------------------
                 // SERVER CURRENT DAY
-                // -----------------------------------------
+                // -------------------------------------------------
 
                 const currentDay =
                     Number(
-                        student
-                            ?.challenge
-                            ?.currentDay
-                    ) || 1;
+                        student.challenge.currentDay
+                    );
 
-
-                // -----------------------------------------
+                // -------------------------------------------------
                 // INVALID DAY
-                // -----------------------------------------
+                // -------------------------------------------------
 
                 if (
                     requestedDay < 1 ||
@@ -178,10 +207,9 @@ function ChallengeDay({ navigate }) {
                     return;
                 }
 
-
-                // -----------------------------------------
+                // -------------------------------------------------
                 // FUTURE DAY
-                // -----------------------------------------
+                // -------------------------------------------------
 
                 if (
                     requestedDay >
@@ -195,91 +223,31 @@ function ChallengeDay({ navigate }) {
                     return;
                 }
 
-
-                // -----------------------------------------
-                // COMPLETED DAYS
-                // -----------------------------------------
+                // -------------------------------------------------
+                // COMPLETED
+                // -------------------------------------------------
 
                 const completedDays =
-                    student
-                        ?.challenge
-                        ?.completedDays ||
+                    student.challenge.completedDays ||
                     [];
-
 
                 const isCompleted =
                     completedDays.includes(
                         requestedDay
                     );
 
-
                 setSubmitted(
                     isCompleted
                 );
 
-
-                // -----------------------------------------
-                // TIMER
-                //
-                // Backend returns:
-                //
-                // student.challenge.time
-                // -----------------------------------------
-
-                const time =
-                    student
-                        ?.challenge
-                        ?.time;
-
-
-                if (time) {
-
-                    const serverRemainingMs =
-                        Number(
-                            time.remainingMs
-                        ) || 0;
-
-
-                    setRemainingMs(
-                        serverRemainingMs
-                    );
-
-
-                    setDeadlineExpired(
-
-                        Boolean(
-
-                            time.expired ||
-
-                            serverRemainingMs <=
-                            0
-
-                        )
-                    );
-
-                } else {
-
-                    setRemainingMs(
-                        0
-                    );
-
-                    setDeadlineExpired(
-                        true
-                    );
-                }
-
-
-                // -----------------------------------------
-                // FETCH CHALLENGE
-                // -----------------------------------------
+                // -------------------------------------------------
+                // CHALLENGE
+                // -------------------------------------------------
 
                 const response =
                     await fetch(
-
                         `${API_URL}/api/challenges/day/${requestedDay}`
-
                     );
-
 
                 if (!response.ok) {
 
@@ -288,10 +256,8 @@ function ChallengeDay({ navigate }) {
                     );
                 }
 
-
                 const data =
                     await response.json();
-
 
                 if (!data.success) {
 
@@ -301,10 +267,46 @@ function ChallengeDay({ navigate }) {
                     );
                 }
 
-
                 setChallenge(
                     data
                 );
+
+                // -------------------------------------------------
+                // SERVER TIME
+                // -------------------------------------------------
+
+                if (
+                    student.istTime
+                ) {
+
+                    setServerNow(
+                        new Date(
+                            student.istTime.iso
+                        ).getTime()
+                    );
+                }
+
+                // -------------------------------------------------
+                // DEADLINE
+                // -------------------------------------------------
+
+                const deadline =
+                    student.challenge.deadline;
+
+                if (deadline) {
+
+                    setRemainingMs(
+                        Number(
+                            deadline.remainingMs
+                        ) || 0
+                    );
+
+                    setDeadlineExpired(
+                        Boolean(
+                            deadline.expired
+                        )
+                    );
+                }
 
             } catch (err) {
 
@@ -313,7 +315,6 @@ function ChallengeDay({ navigate }) {
                     err
                 );
 
-
                 setError(
                     err.message ||
                     "Unable to load challenge."
@@ -321,300 +322,157 @@ function ChallengeDay({ navigate }) {
 
             } finally {
 
-                setLoading(
-                    false
-                );
+                setLoading(false);
             }
         };
-
 
     // =====================================================
     // INITIAL LOAD
     // =====================================================
 
-    useEffect(
-        () => {
+    useEffect(() => {
 
-            loadChallenge();
+        loadChallenge();
 
-        },
-        [requestedDay]
-    );
-
+    }, [requestedDay]);
 
     // =====================================================
     // COUNTDOWN
+    //
+    // Server sends remainingMs.
+    // We decrease it every second.
     // =====================================================
 
-    useEffect(
-        () => {
+    useEffect(() => {
 
-            if (
-                remainingMs === null ||
-                remainingMs <= 0 ||
-                deadlineExpired
-            ) {
+        if (
+            remainingMs === null ||
+            remainingMs <= 0
+        ) {
+            return;
+        }
 
-                return;
-            }
+        const timer =
+            setInterval(() => {
 
-
-            const timer =
-                setInterval(
-                    () => {
-
-                        setRemainingMs(
-                            (previous) => {
-
-                                if (
-                                    previous <=
-                                    1000
-                                ) {
-
-                                    return 0;
-                                }
-
-
-                                return (
-                                    previous -
-                                    1000
-                                );
-                            }
-                        );
-
-                    },
-                    1000
-                );
-
-
-            return () => {
-
-                clearInterval(
-                    timer
-                );
-            };
-
-        },
-        [deadlineExpired]
-    );
-
-
-    // =====================================================
-    // DETECT TIMER EXPIRY
-    // =====================================================
-
-    useEffect(
-        () => {
-
-            if (
-                remainingMs === null
-            ) {
-
-                return;
-            }
-
-
-            if (
-                remainingMs <= 0 &&
-                !deadlineExpired
-            ) {
-
-                setDeadlineExpired(
-                    true
-                );
-            }
-
-        },
-        [
-            remainingMs,
-            deadlineExpired
-        ]
-    );
-
-
-    // =====================================================
-    // WHEN TIMER EXPIRES
-    // ASK SERVER FOR CURRENT DAY
-    // =====================================================
-
-    useEffect(
-        () => {
-
-            if (
-                !deadlineExpired
-            ) {
-
-                return;
-            }
-
-
-            const refresh =
-                async () => {
-
-                    try {
-
-                        const student =
-                            await fetchStudentData();
-
-
-                        setStudentData(
-                            student
-                        );
-
-
-                        const currentDay =
-                            Number(
-                                student
-                                    ?.challenge
-                                    ?.currentDay
-                            ) || 1;
-
-
-                        // -------------------------------------
-                        // NEXT DAY AVAILABLE
-                        // -------------------------------------
+                setRemainingMs(
+                    (previous) => {
 
                         if (
-                            currentDay >
-                            requestedDay
+                            previous <= 1000
                         ) {
 
-                            navigate(
-                                `/day/${currentDay}`
+                            clearInterval(
+                                timer
                             );
 
-                            return;
+                            setDeadlineExpired(
+                                true
+                            );
+
+                            return 0;
                         }
 
-
-                        // -------------------------------------
-                        // REFRESH SERVER TIMER
-                        // -------------------------------------
-
-                        const time =
-                            student
-                                ?.challenge
-                                ?.time;
-
-
-                        if (time) {
-
-                            const serverRemainingMs =
-                                Number(
-                                    time.remainingMs
-                                ) || 0;
-
-
-                            if (
-                                serverRemainingMs >
-                                0
-                            ) {
-
-                                setRemainingMs(
-                                    serverRemainingMs
-                                );
-
-                                setDeadlineExpired(
-                                    false
-                                );
-                            }
-                        }
-
-                    } catch (error) {
-
-                        console.error(
-                            "TIMER REFRESH ERROR:",
-                            error
+                        return (
+                            previous - 1000
                         );
                     }
-                };
-
-
-            refresh();
-
-        },
-        [
-            deadlineExpired,
-            requestedDay,
-            navigate
-        ]
-    );
-
-
-    // =====================================================
-    // FORMAT TIME
-    // =====================================================
-
-    const formatTime =
-        (milliseconds) => {
-
-            if (
-                milliseconds === null ||
-                milliseconds <= 0
-            ) {
-
-                return "00:00:00";
-            }
-
-
-            const totalSeconds =
-                Math.floor(
-                    milliseconds /
-                    1000
                 );
 
+            }, 1000);
 
-            const hours =
-                Math.floor(
-                    totalSeconds /
-                    3600
-                );
+        return () => {
 
-
-            const minutes =
-                Math.floor(
-
-                    (
-                        totalSeconds %
-                        3600
-                    ) /
-
-                    60
-
-                );
-
-
-            const seconds =
-                totalSeconds %
-                60;
-
-
-            return (
-
-                String(hours)
-                    .padStart(
-                        2,
-                        "0"
-                    ) +
-
-                ":" +
-
-                String(minutes)
-                    .padStart(
-                        2,
-                        "0"
-                    ) +
-
-                ":" +
-
-                String(seconds)
-                    .padStart(
-                        2,
-                        "0"
-                    )
+            clearInterval(
+                timer
             );
         };
 
+    }, [remainingMs]);
+
+    // =====================================================
+    // MIDNIGHT / TIMER EXPIRED
+    // =====================================================
+
+    useEffect(() => {
+
+        if (
+            !deadlineExpired
+        ) {
+            return;
+        }
+
+        const refresh =
+            async () => {
+
+                try {
+
+                    const student =
+                        await fetchStudentData();
+
+                    setStudentData(
+                        student
+                    );
+
+                    const currentDay =
+                        Number(
+                            student.challenge.currentDay
+                        );
+
+                    // -------------------------------------------------
+                    // NEW DAY
+                    // -------------------------------------------------
+
+                    if (
+                        currentDay >
+                        requestedDay
+                    ) {
+
+                        navigate(
+                            `/day/${currentDay}`
+                        );
+
+                        return;
+                    }
+
+                    // -------------------------------------------------
+                    // SAME DAY
+                    // -------------------------------------------------
+
+                    const deadline =
+                        student.challenge.deadline;
+
+                    if (deadline) {
+
+                        setRemainingMs(
+                            Number(
+                                deadline.remainingMs
+                            ) || 0
+                        );
+
+                        setDeadlineExpired(
+                            Boolean(
+                                deadline.expired
+                            )
+                        );
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "MIDNIGHT REFRESH ERROR:",
+                        error
+                    );
+                }
+            };
+
+        refresh();
+
+    }, [
+        deadlineExpired,
+        requestedDay,
+        navigate
+    ]);
 
     // =====================================================
     // SUBMIT
@@ -625,17 +483,9 @@ function ChallengeDay({ navigate }) {
 
             e.preventDefault();
 
-
             setSubmitError("");
 
-
-            // -----------------------------------------
-            // CHALLENGE CHECK
-            // -----------------------------------------
-
-            if (
-                !challenge
-            ) {
+            if (!challenge) {
 
                 setSubmitError(
                     "Challenge is not available."
@@ -644,39 +494,21 @@ function ChallengeDay({ navigate }) {
                 return;
             }
 
-
-            // -----------------------------------------
-            // TIMER CHECK
-            // -----------------------------------------
-
             if (
-
                 deadlineExpired ||
-
-                remainingMs === null ||
-
                 remainingMs <= 0
-
             ) {
 
                 setSubmitError(
-                    "This day's time has expired."
+                    "Today's challenge time has expired."
                 );
 
                 return;
             }
 
-
-            // -----------------------------------------
-            // PROOF CHECK
-            // -----------------------------------------
-
             if (
-
                 !github.trim() &&
-
                 !linkedin.trim()
-
             ) {
 
                 setSubmitError(
@@ -686,36 +518,22 @@ function ChallengeDay({ navigate }) {
                 return;
             }
 
-
             try {
 
-                setSubmitting(
-                    true
-                );
-
-
-                // -----------------------------------------
-                // SUBMIT
-                // -----------------------------------------
+                setSubmitting(true);
 
                 const response =
                     await fetch(
-
                         `${API_URL}/api/submissions`,
-
                         {
-
-                            method:
-                                "POST",
+                            method: "POST",
 
                             headers: {
-
                                 "Content-Type":
                                     "application/json"
                             },
 
                             body:
-
                                 JSON.stringify({
 
                                     studentId:
@@ -735,18 +553,10 @@ function ChallengeDay({ navigate }) {
                         }
                     );
 
-
                 const result =
                     await response.json();
 
-
-                // -----------------------------------------
-                // ERROR
-                // -----------------------------------------
-
-                if (
-                    !response.ok
-                ) {
+                if (!response.ok) {
 
                     throw new Error(
                         result.message ||
@@ -754,80 +564,20 @@ function ChallengeDay({ navigate }) {
                     );
                 }
 
-
-                console.log(
-                    "SUBMITTED:",
-                    result
-                );
-
-
-                // -----------------------------------------
-                // SUCCESS
-                // -----------------------------------------
-
                 setSubmitted(
                     true
                 );
 
+                setGithub("");
+                setLinkedin("");
 
-                setGithub(
-                    ""
-                );
-
-
-                setLinkedin(
-                    ""
-                );
-
-
-                // -----------------------------------------
-                // REFRESH STUDENT
-                // -----------------------------------------
-
+                // Refresh progress
                 const updatedStudent =
                     await fetchStudentData();
-
 
                 setStudentData(
                     updatedStudent
                 );
-
-
-                // -----------------------------------------
-                // REFRESH TIMER
-                // -----------------------------------------
-
-                const time =
-                    updatedStudent
-                        ?.challenge
-                        ?.time;
-
-
-                if (time) {
-
-                    const updatedRemainingMs =
-                        Number(
-                            time.remainingMs
-                        ) || 0;
-
-
-                    setRemainingMs(
-                        updatedRemainingMs
-                    );
-
-
-                    setDeadlineExpired(
-
-                        Boolean(
-
-                            time.expired ||
-
-                            updatedRemainingMs <=
-                            0
-
-                        )
-                    );
-                }
 
             } catch (err) {
 
@@ -835,7 +585,6 @@ function ChallengeDay({ navigate }) {
                     "SUBMISSION ERROR:",
                     err
                 );
-
 
                 setSubmitError(
                     err.message ||
@@ -850,9 +599,8 @@ function ChallengeDay({ navigate }) {
             }
         };
 
-
     // =====================================================
-    // PREVIOUS DAY
+    // PREVIOUS
     // =====================================================
 
     const goToPreviousDay =
@@ -868,9 +616,8 @@ function ChallengeDay({ navigate }) {
             }
         };
 
-
     // =====================================================
-    // NEXT DAY
+    // NEXT
     // =====================================================
 
     const goToNextDay =
@@ -878,13 +625,10 @@ function ChallengeDay({ navigate }) {
 
             const currentDay =
                 Number(
-
                     studentData
                         ?.challenge
                         ?.currentDay
-
                 ) || 1;
-
 
             if (
                 requestedDay <
@@ -897,14 +641,11 @@ function ChallengeDay({ navigate }) {
             }
         };
 
-
     // =====================================================
     // LOADING
     // =====================================================
 
-    if (
-        loading
-    ) {
+    if (loading) {
 
         return (
 
@@ -922,7 +663,6 @@ function ChallengeDay({ navigate }) {
         );
     }
 
-
     // =====================================================
     // ERROR
     // =====================================================
@@ -938,7 +678,6 @@ function ChallengeDay({ navigate }) {
 
                 <button
                     className="back-button"
-
                     onClick={() =>
                         navigate(
                             "/dashboard"
@@ -948,22 +687,18 @@ function ChallengeDay({ navigate }) {
                     ← Dashboard
                 </button>
 
-
                 <div className="error-box">
 
                     <h2>
                         Challenge Not Available
                     </h2>
 
-
                     <p>
                         {error}
                     </p>
 
-
                     <button
                         className="submit-button"
-
                         onClick={() =>
                             navigate(
                                 "/dashboard"
@@ -979,7 +714,6 @@ function ChallengeDay({ navigate }) {
         );
     }
 
-
     // =====================================================
     // MAIN UI
     // =====================================================
@@ -988,13 +722,10 @@ function ChallengeDay({ navigate }) {
 
         <main>
 
-            {/* =================================================
-                BACK
-            ================================================= */}
+            {/* BACK */}
 
             <button
                 className="back-button"
-
                 onClick={() =>
                     navigate(
                         "/dashboard"
@@ -1004,10 +735,7 @@ function ChallengeDay({ navigate }) {
                 ← Dashboard
             </button>
 
-
-            {/* =================================================
-                HEADER
-            ================================================= */}
+            {/* HEADER */}
 
             <section className="day-header">
 
@@ -1017,27 +745,19 @@ function ChallengeDay({ navigate }) {
                         60 DAY CODING CHALLENGE
                     </p>
 
-
                     <h1>
                         DAY {challenge.day}
                     </h1>
 
                 </div>
 
-
                 <div className="day-counter">
 
                     <strong>
-
                         {String(
                             challenge.day
-                        ).padStart(
-                            2,
-                            "0"
-                        )}
-
+                        ).padStart(2, "0")}
                     </strong>
-
 
                     <small>
                         / {TOTAL_DAYS}
@@ -1047,51 +767,34 @@ function ChallengeDay({ navigate }) {
 
             </section>
 
-
             {/* =================================================
                 COUNTDOWN
             ================================================= */}
 
-            {!submitted && (
+            <section className="countdown-card">
 
-                <section className="countdown-card">
+                <p className="section-label">
+                    TIME REMAINING TODAY
+                </p>
 
-                    <p className="section-label">
-                        TIME REMAINING
-                    </p>
+                <h2>
+                    {deadlineExpired
+                        ? "00:00:00"
+                        : formatTime(
+                            remainingMs
+                        )}
+                </h2>
 
+                <p>
 
-                    <h2>
+                    {deadlineExpired
+                        ? "New challenge is being loaded..."
+                        : "Today's challenge ends at 12:00 AM IST."
+                    }
 
-                        {deadlineExpired
+                </p>
 
-                            ? "TIME EXPIRED"
-
-                            : formatTime(
-                                remainingMs
-                            )
-
-                        }
-
-                    </h2>
-
-
-                    <p>
-
-                        {deadlineExpired
-
-                            ? "Checking for the next challenge..."
-
-                            : "Complete today's challenge before the timer ends."
-
-                        }
-
-                    </p>
-
-                </section>
-
-            )}
-
+            </section>
 
             {/* =================================================
                 COMPLETED
@@ -1105,30 +808,20 @@ function ChallengeDay({ navigate }) {
                         DAY COMPLETED
                     </p>
 
-
                     <h2>
                         ✓ COMPLETED
                     </h2>
-
 
                     <p>
                         Your submission is saved.
                     </p>
 
-
                     <small>
-
-                        Day {challenge.day}
-                        {" "}
-                        will remain active
-                        until its time window ends.
-
+                        The timer will continue until midnight.
                     </small>
 
                 </section>
-
             )}
-
 
             {/* =================================================
                 TASK
@@ -1142,11 +835,9 @@ function ChallengeDay({ navigate }) {
                         DAY {challenge.day}
                     </span>
 
-
                     <span>
                         {challenge.category}
                     </span>
-
 
                     <span>
                         {challenge.difficulty}
@@ -1154,24 +845,19 @@ function ChallengeDay({ navigate }) {
 
                 </div>
 
-
                 <h2>
                     {challenge.title}
                 </h2>
-
 
                 <p className="task-description">
                     {challenge.description}
                 </p>
 
-
                 <hr />
-
 
                 <h3>
                     Today's Goal
                 </h3>
-
 
                 <div className="goal-box">
 
@@ -1179,13 +865,11 @@ function ChallengeDay({ navigate }) {
                         🎯 GOAL
                     </strong>
 
-
                     <p>
                         {challenge.goal}
                     </p>
 
                 </div>
-
 
                 <div className="goal-box">
 
@@ -1193,20 +877,16 @@ function ChallengeDay({ navigate }) {
                         💡 REMEMBER
                     </strong>
 
-
                     <p>
-
                         You don't need to solve
                         everything perfectly.
                         The goal is to learn
                         something every day.
-
                     </p>
 
                 </div>
 
             </section>
-
 
             {/* =================================================
                 NAVIGATION
@@ -1216,11 +896,9 @@ function ChallengeDay({ navigate }) {
 
                 <button
                     className="day-nav-button"
-
                     disabled={
                         requestedDay === 1
                     }
-
                     onClick={
                         goToPreviousDay
                     }
@@ -1228,35 +906,20 @@ function ChallengeDay({ navigate }) {
                     ← PREVIOUS
                 </button>
 
-
                 <span className="day-nav-current">
-
-                    DAY {requestedDay}
-                    {" "}
-                    / {TOTAL_DAYS}
-
+                    DAY {requestedDay} / {TOTAL_DAYS}
                 </span>
-
 
                 <button
                     className="day-nav-button"
-
                     disabled={
-
                         requestedDay >=
-
                         (
-
                             studentData
                                 ?.challenge
-                                ?.currentDay ||
-
-                            1
-
+                                ?.currentDay || 1
                         )
-
                     }
-
                     onClick={
                         goToNextDay
                     }
@@ -1265,7 +928,6 @@ function ChallengeDay({ navigate }) {
                 </button>
 
             </div>
-
 
             {/* =================================================
                 SUBMISSION
@@ -1279,140 +941,80 @@ function ChallengeDay({ navigate }) {
                         PROOF OF WORK
                     </p>
 
-
                     <h2>
                         Show that you did it.
                     </h2>
-
 
                     <p>
                         Submit your GitHub repository
                         or LinkedIn post.
                     </p>
 
-
                     {submitError && (
 
                         <div className="submit-error">
-
                             {submitError}
-
                         </div>
 
                     )}
 
-
                     <form
                         className="proof-form"
-
                         onSubmit={
                             handleSubmit
                         }
                     >
 
-                        {/* GITHUB */}
-
                         <label>
 
                             GitHub Repository / Commit
 
-
                             <input
                                 type="url"
-
-                                placeholder={
-                                    "https://github.com/..."
-                                }
-
-                                value={
-                                    github
-                                }
-
+                                placeholder="https://github.com/..."
+                                value={github}
                                 onChange={
                                     (e) =>
                                         setGithub(
                                             e.target.value
                                         )
                                 }
-
-                                disabled={
-
-                                    submitting ||
-
-                                    deadlineExpired
-
-                                }
                             />
 
                         </label>
-
-
-                        {/* LINKEDIN */}
 
                         <label>
 
                             LinkedIn Post
 
-
                             <input
                                 type="url"
-
-                                placeholder={
-                                    "https://linkedin.com/posts/..."
-                                }
-
-                                value={
-                                    linkedin
-                                }
-
+                                placeholder="https://linkedin.com/posts/..."
+                                value={linkedin}
                                 onChange={
                                     (e) =>
                                         setLinkedin(
                                             e.target.value
                                         )
                                 }
-
-                                disabled={
-
-                                    submitting ||
-
-                                    deadlineExpired
-
-                                }
                             />
 
                         </label>
 
-
-                        {/* SUBMIT */}
-
                         <button
                             type="submit"
-
                             className="submit-button"
-
                             disabled={
-
                                 submitting ||
-
-                                deadlineExpired ||
-
-                                remainingMs <= 0
-
+                                deadlineExpired
                             }
                         >
 
                             {submitting
-
                                 ? "SUBMITTING..."
-
-                                : deadlineExpired ||
-                                  remainingMs <= 0
-
+                                : deadlineExpired
                                 ? "TIME EXPIRED"
-
                                 : `SUBMIT DAY ${challenge.day} →`
-
                             }
 
                         </button>
@@ -1429,30 +1031,21 @@ function ChallengeDay({ navigate }) {
                         ✓
                     </span>
 
-
                     <h2>
                         DAY {challenge.day} COMPLETE!
                     </h2>
-
 
                     <p>
                         Your proof has been submitted successfully.
                     </p>
 
-
                     <p>
-
-                        Day {challenge.day}
-                        {" "}
-                        will remain active
-                        until its time window ends.
-
+                        The next challenge will become
+                        available at midnight.
                     </p>
-
 
                     <button
                         className="submit-button"
-
                         onClick={() =>
                             navigate(
                                 "/dashboard"
@@ -1466,7 +1059,6 @@ function ChallengeDay({ navigate }) {
 
             )}
 
-
             {/* =================================================
                 MOTIVATION
             ================================================= */}
@@ -1474,19 +1066,13 @@ function ChallengeDay({ navigate }) {
             <section className="day-motivation">
 
                 <strong>
-
-                    {challenge.day}
-                    /
-                    {TOTAL_DAYS}
-
+                    {challenge.day}/{TOTAL_DAYS}
                 </strong>
-
 
                 <p>
                     You're already ahead of
                     everyone who never started.
                 </p>
-
 
                 <b>
                     Keep going.
