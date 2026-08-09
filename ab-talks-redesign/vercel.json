@@ -5,7 +5,7 @@
             "destination": "https://trustworthy-hope-production-749d.up.railway.app/api/:path*"
         },
         {
-            "source": "/((?!api).*)",
+            "source": "/((?!api|.*\\..*).*)",
             "destination": "/index.html"
         }
     ]
