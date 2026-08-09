@@ -1,0 +1,551 @@
+[
+  {
+    "day": 1,
+    "type": "Programming",
+    "category": "C++ Fundamentals",
+    "title": "Print Student Details",
+    "difficulty": "Beginner",
+    "goal": "Practice variables and input/output.",
+    "description": "Write a C++ program that reads a student's name, age and college and prints them."
+  },
+  {
+    "day": 2,
+    "type": "Programming",
+    "category": "Conditions",
+    "title": "Even or Odd",
+    "difficulty": "Beginner",
+    "goal": "Practice conditional statements.",
+    "description": "Given an integer, determine whether it is even or odd."
+  },
+  {
+    "day": 3,
+    "type": "Programming",
+    "category": "Conditions",
+    "title": "Simple Calculator",
+    "difficulty": "Beginner",
+    "goal": "Practice switch statements.",
+    "description": "Build a calculator that performs addition, subtraction, multiplication and division."
+  },
+  {
+    "day": 4,
+    "type": "Programming",
+    "category": "Loops",
+    "title": "Multiplication Table",
+    "difficulty": "Beginner",
+    "goal": "Practice loops.",
+    "description": "Take a number and print its multiplication table from 1 to 10."
+  },
+  {
+    "day": 5,
+    "type": "Programming",
+    "category": "Loops",
+    "title": "Sum of Digits",
+    "difficulty": "Beginner",
+    "goal": "Practice loops and digit extraction.",
+    "description": "Calculate the sum of all digits of a given number."
+  },
+  {
+    "day": 6,
+    "type": "Programming",
+    "category": "Functions",
+    "title": "Prime Number Checker",
+    "difficulty": "Easy",
+    "goal": "Practice functions.",
+    "description": "Create a function that checks whether a number is prime."
+  },
+  {
+    "day": 7,
+    "type": "Programming",
+    "category": "Strings",
+    "title": "Palindrome String",
+    "difficulty": "Easy",
+    "goal": "Practice string manipulation.",
+    "description": "Check whether a given string is a palindrome."
+  },
+  {
+    "day": 8,
+    "type": "Programming",
+    "category": "Arrays",
+    "title": "Find Maximum Element",
+    "difficulty": "Easy",
+    "goal": "Practice array traversal.",
+    "description": "Find the largest element in an integer array."
+  },
+  {
+    "day": 9,
+    "type": "Programming",
+    "category": "Arrays",
+    "title": "Reverse an Array",
+    "difficulty": "Easy",
+    "goal": "Practice array manipulation.",
+    "description": "Reverse an array without using another array."
+  },
+  {
+    "day": 10,
+    "type": "Recursion",
+    "category": "Recursion",
+    "title": "Factorial Using Recursion",
+    "difficulty": "Easy",
+    "goal": "Understand recursion.",
+    "description": "Implement factorial using a recursive function."
+  },
+
+  {
+    "day": 11,
+    "type": "DSA",
+    "category": "Arrays",
+    "title": "Two Sum",
+    "difficulty": "Easy",
+    "goal": "Understand searching and hash maps.",
+    "description": "Find two numbers in an array whose sum equals a target."
+  },
+  {
+    "day": 12,
+    "type": "DSA",
+    "category": "Arrays",
+    "title": "Move Zeroes",
+    "difficulty": "Easy",
+    "goal": "Practice in-place array manipulation.",
+    "description": "Move all zeroes to the end while maintaining the order of other elements."
+  },
+  {
+    "day": 13,
+    "type": "DSA",
+    "category": "Arrays",
+    "title": "Best Time to Buy and Sell Stock",
+    "difficulty": "Easy",
+    "goal": "Learn one-pass optimization.",
+    "description": "Find the maximum profit from one buy and one sell."
+  },
+  {
+    "day": 14,
+    "type": "DSA",
+    "category": "Strings",
+    "title": "Valid Anagram",
+    "difficulty": "Easy",
+    "goal": "Practice frequency counting.",
+    "description": "Determine whether two strings are anagrams."
+  },
+  {
+    "day": 15,
+    "type": "DSA",
+    "category": "Strings",
+    "title": "First Unique Character",
+    "difficulty": "Easy",
+    "goal": "Practice frequency maps.",
+    "description": "Find the first character that occurs only once."
+  },
+  {
+    "day": 16,
+    "type": "DSA",
+    "category": "Stack",
+    "title": "Valid Parentheses",
+    "difficulty": "Easy",
+    "goal": "Understand stacks.",
+    "description": "Check whether brackets are correctly matched."
+  },
+  {
+    "day": 17,
+    "type": "DSA",
+    "category": "Linked List",
+    "title": "Reverse a Linked List",
+    "difficulty": "Easy",
+    "goal": "Practice pointer manipulation.",
+    "description": "Reverse a singly linked list."
+  },
+  {
+    "day": 18,
+    "type": "DSA",
+    "category": "Binary Search",
+    "title": "Binary Search",
+    "difficulty": "Easy",
+    "goal": "Understand binary search.",
+    "description": "Find a target value in a sorted array using binary search."
+  },
+  {
+    "day": 19,
+    "type": "DSA",
+    "category": "Recursion",
+    "title": "Fibonacci Number",
+    "difficulty": "Easy",
+    "goal": "Understand recursive thinking.",
+    "description": "Implement Fibonacci and analyze its complexity."
+  },
+  {
+    "day": 20,
+    "type": "DSA",
+    "category": "Two Pointers",
+    "title": "Palindrome Number",
+    "difficulty": "Easy",
+    "goal": "Practice two-pointer reasoning.",
+    "description": "Determine whether an integer is a palindrome."
+  },
+
+  {
+    "day": 21,
+    "type": "Git",
+    "category": "Git Basics",
+    "title": "Create Your First Git Repository",
+    "difficulty": "Beginner",
+    "goal": "Learn the Git workflow.",
+    "description": "Initialize a repository, make a commit and push it to GitHub."
+  },
+  {
+    "day": 22,
+    "type": "Git",
+    "category": "Branches",
+    "title": "Practice Git Branches",
+    "difficulty": "Beginner",
+    "goal": "Understand branches.",
+    "description": "Create a feature branch, make a change and merge it."
+  },
+  {
+    "day": 23,
+    "type": "GitHub",
+    "category": "README",
+    "title": "Write a Developer README",
+    "difficulty": "Beginner",
+    "goal": "Learn project documentation.",
+    "description": "Create a professional README with setup instructions and project information."
+  },
+  {
+    "day": 24,
+    "type": "GitHub",
+    "category": "Issues",
+    "title": "Create and Solve an Issue",
+    "difficulty": "Beginner",
+    "goal": "Understand issue-based development.",
+    "description": "Create an issue, solve it and close it with a commit."
+  },
+  {
+    "day": 25,
+    "type": "GitHub",
+    "category": "Profile",
+    "title": "Improve Your GitHub Profile",
+    "difficulty": "Beginner",
+    "goal": "Build a developer presence.",
+    "description": "Improve your GitHub profile with skills, projects and goals."
+  },
+
+  {
+    "day": 26,
+    "type": "Web Development",
+    "category": "HTML",
+    "title": "Build a Personal Profile",
+    "difficulty": "Beginner",
+    "goal": "Practice semantic HTML.",
+    "description": "Create a profile page containing your introduction, skills and projects."
+  },
+  {
+    "day": 27,
+    "type": "Web Development",
+    "category": "HTML",
+    "title": "Create a Registration Form",
+    "difficulty": "Beginner",
+    "goal": "Practice HTML forms.",
+    "description": "Build a registration form using different HTML input elements."
+  },
+  {
+    "day": 28,
+    "type": "Web Development",
+    "category": "CSS",
+    "title": "Responsive Profile Card",
+    "difficulty": "Easy",
+    "goal": "Practice responsive CSS.",
+    "description": "Create a profile card that works well on a 390px mobile screen."
+  },
+  {
+    "day": 29,
+    "type": "Web Development",
+    "category": "CSS",
+    "title": "Responsive Navbar",
+    "difficulty": "Easy",
+    "goal": "Practice responsive layouts.",
+    "description": "Create a navbar that works on desktop and mobile."
+  },
+  {
+    "day": 30,
+    "type": "Web Development",
+    "category": "CSS",
+    "title": "Mini Landing Page",
+    "difficulty": "Easy",
+    "goal": "Combine HTML and CSS.",
+    "description": "Build a landing page with a hero, features and call-to-action."
+  },
+
+  {
+    "day": 31,
+    "type": "JavaScript",
+    "category": "DOM",
+    "title": "Counter Application",
+    "difficulty": "Beginner",
+    "goal": "Practice JavaScript events.",
+    "description": "Build a counter with increment, decrement and reset."
+  },
+  {
+    "day": 32,
+    "type": "JavaScript",
+    "category": "Arrays",
+    "title": "Array Search Tool",
+    "difficulty": "Easy",
+    "goal": "Practice array methods.",
+    "description": "Create a small interface that searches for a value inside an array."
+  },
+  {
+    "day": 33,
+    "type": "JavaScript",
+    "category": "DOM",
+    "title": "Dark Mode Toggle",
+    "difficulty": "Easy",
+    "goal": "Practice DOM manipulation.",
+    "description": "Create a button that switches between light and dark themes."
+  },
+  {
+    "day": 34,
+    "type": "JavaScript",
+    "category": "Local Storage",
+    "title": "Persistent Todo List",
+    "difficulty": "Easy",
+    "goal": "Understand localStorage.",
+    "description": "Build a todo list whose data remains after refreshing the page."
+  },
+  {
+    "day": 35,
+    "type": "JavaScript",
+    "category": "API",
+    "title": "Fetch Data From an API",
+    "difficulty": "Easy",
+    "goal": "Learn asynchronous JavaScript.",
+    "description": "Fetch data from a public API and display loading and error states."
+  },
+
+  {
+    "day": 36,
+    "type": "React",
+    "category": "Components",
+    "title": "Build Reusable Cards",
+    "difficulty": "Beginner",
+    "goal": "Understand component reuse.",
+    "description": "Create a reusable Card component and render multiple cards."
+  },
+  {
+    "day": 37,
+    "type": "React",
+    "category": "Props",
+    "title": "Student Profile Components",
+    "difficulty": "Beginner",
+    "goal": "Practice props.",
+    "description": "Create a Student component that receives information through props."
+  },
+  {
+    "day": 38,
+    "type": "React",
+    "category": "State",
+    "title": "React Todo App",
+    "difficulty": "Easy",
+    "goal": "Practice useState.",
+    "description": "Create a todo application with add and delete functionality."
+  },
+  {
+    "day": 39,
+    "type": "React",
+    "category": "Forms",
+    "title": "Feedback Form",
+    "difficulty": "Easy",
+    "goal": "Practice controlled inputs.",
+    "description": "Build a React feedback form and display the submitted feedback."
+  },
+  {
+    "day": 40,
+    "type": "React",
+    "category": "API",
+    "title": "React API Dashboard",
+    "difficulty": "Medium",
+    "goal": "Combine React with APIs.",
+    "description": "Fetch API data and display it in a responsive dashboard."
+  },
+
+  {
+    "day": 41,
+    "type": "Backend",
+    "category": "Node.js",
+    "title": "Create Your First Node Server",
+    "difficulty": "Beginner",
+    "goal": "Understand servers.",
+    "description": "Create a Node.js server that responds with JSON."
+  },
+  {
+    "day": 42,
+    "type": "Backend",
+    "category": "Express",
+    "title": "Create an Express API",
+    "difficulty": "Easy",
+    "goal": "Learn REST APIs.",
+    "description": "Create GET endpoints using Express."
+  },
+  {
+    "day": 43,
+    "type": "Backend",
+    "category": "REST",
+    "title": "Build CRUD Routes",
+    "difficulty": "Medium",
+    "goal": "Understand CRUD.",
+    "description": "Create GET, POST, PUT and DELETE routes."
+  },
+  {
+    "day": 44,
+    "type": "Backend",
+    "category": "Validation",
+    "title": "Validate API Input",
+    "difficulty": "Medium",
+    "goal": "Learn API validation.",
+    "description": "Reject invalid or incomplete API requests."
+  },
+  {
+    "day": 45,
+    "type": "Backend",
+    "category": "Authentication",
+    "title": "Build a Login API",
+    "difficulty": "Medium",
+    "goal": "Understand authentication flow.",
+    "description": "Create a basic login API and validate user credentials."
+  },
+
+  {
+    "day": 46,
+    "type": "Database",
+    "category": "MongoDB",
+    "title": "Create Your First Collection",
+    "difficulty": "Beginner",
+    "goal": "Understand MongoDB collections.",
+    "description": "Create a students collection and insert sample documents."
+  },
+  {
+    "day": 47,
+    "type": "Database",
+    "category": "MongoDB",
+    "title": "MongoDB CRUD",
+    "difficulty": "Easy",
+    "goal": "Practice database operations.",
+    "description": "Implement create, read, update and delete operations."
+  },
+  {
+    "day": 48,
+    "type": "Database",
+    "category": "Schema",
+    "title": "Design a Challenge Schema",
+    "difficulty": "Easy",
+    "goal": "Learn data modeling.",
+    "description": "Design a schema for the ABTalks daily challenges."
+  },
+  {
+    "day": 49,
+    "type": "Database",
+    "category": "Relationships",
+    "title": "Students and Submissions",
+    "difficulty": "Medium",
+    "goal": "Understand related data.",
+    "description": "Design data so students can have multiple challenge submissions."
+  },
+  {
+    "day": 50,
+    "type": "Full Stack",
+    "category": "Integration",
+    "title": "Connect React to the API",
+    "difficulty": "Medium",
+    "goal": "Understand full-stack data flow.",
+    "description": "Fetch challenge data from Express and display it in React."
+  },
+
+  {
+    "day": 51,
+    "type": "Project",
+    "category": "Mini Project",
+    "title": "Build a Study Timer",
+    "difficulty": "Easy",
+    "goal": "Combine frontend skills.",
+    "description": "Build a timer with start, pause and reset."
+  },
+  {
+    "day": 52,
+    "type": "Project",
+    "category": "Mini Project",
+    "title": "Build a Notes App",
+    "difficulty": "Medium",
+    "goal": "Practice CRUD.",
+    "description": "Create an app where users can create, edit and delete notes."
+  },
+  {
+    "day": 53,
+    "type": "Project",
+    "category": "API Project",
+    "title": "Weather Dashboard",
+    "difficulty": "Medium",
+    "goal": "Practice API integration.",
+    "description": "Create a dashboard that searches for a city and displays weather information."
+  },
+  {
+    "day": 54,
+    "type": "Project",
+    "category": "Full Stack",
+    "title": "Task Manager",
+    "difficulty": "Medium",
+    "goal": "Combine React and backend skills.",
+    "description": "Build a task manager with a React frontend and Express API."
+  },
+  {
+    "day": 55,
+    "type": "Project",
+    "category": "Deployment",
+    "title": "Deploy Your Project",
+    "difficulty": "Medium",
+    "goal": "Learn deployment.",
+    "description": "Deploy a project and add its live URL to the README."
+  },
+
+  {
+    "day": 56,
+    "type": "Open Source",
+    "category": "GitHub",
+    "title": "Find a Beginner-Friendly Issue",
+    "difficulty": "Beginner",
+    "goal": "Understand open source.",
+    "description": "Find a beginner-friendly issue and read the repository contribution guidelines."
+  },
+  {
+    "day": 57,
+    "type": "Open Source",
+    "category": "Contribution",
+    "title": "Make a Small Contribution",
+    "difficulty": "Medium",
+    "goal": "Practice real collaboration.",
+    "description": "Make a meaningful documentation, test or bug-fix contribution."
+  },
+  {
+    "day": 58,
+    "type": "Career",
+    "category": "LinkedIn",
+    "title": "Share Your Learning",
+    "difficulty": "Beginner",
+    "goal": "Build professional visibility.",
+    "description": "Write a LinkedIn post explaining what you learned during the challenge."
+  },
+  {
+    "day": 59,
+    "type": "Career",
+    "category": "Portfolio",
+    "title": "Improve Your Portfolio",
+    "difficulty": "Easy",
+    "goal": "Present your work professionally.",
+    "description": "Add your best project, GitHub link, skills and introduction to your portfolio."
+  },
+  {
+    "day": 60,
+    "type": "Final Project",
+    "category": "Challenge Completion",
+    "title": "Ship Your Final Project",
+    "difficulty": "Hard",
+    "goal": "Finish what you started.",
+    "description": "Build, deploy and document a project using the skills learned during the 60-day challenge."
+  }
+]

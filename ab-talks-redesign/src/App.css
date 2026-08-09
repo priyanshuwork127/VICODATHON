@@ -1,6 +1,8 @@
 /* =========================================================
-   ABTALKS - GLOBAL CSS
-   Mobile First - 390px Design
+   ABTALKS
+   GLOBAL CSS
+   Mobile First: 390px
+   Desktop: 768px+
 ========================================================= */
 
 * {
@@ -18,6 +20,7 @@ body {
   background: #09090b;
   color: #f5f5f5;
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 button,
@@ -34,6 +37,12 @@ a {
   color: inherit;
 }
 
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+
 /* =========================================================
    NAVBAR
 ========================================================= */
@@ -42,31 +51,32 @@ a {
   width: 100%;
   max-width: 390px;
   min-height: 64px;
+
   margin: 0 auto;
+  padding: 14px 18px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 14px 18px;
-
   background: #09090b;
-  border-bottom: 1px solid #222225;
+  border-bottom: 1px solid #242428;
 
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .navbar-logo {
   border: none;
   background: transparent;
 
-  color: white;
-  font-size: 21px;
-  font-weight: 800;
+  color: #ffffff;
 
-  padding: 0;
+  font-size: 21px;
+  font-weight: 900;
+
+  cursor: pointer;
 }
 
 .navbar-logo span {
@@ -81,14 +91,14 @@ a {
   border: 1px solid #a855f7;
   background: transparent;
 
-  color: white;
+  color: #ffffff;
 
-  padding: 8px 12px;
-
-  font-size: 10px;
-  font-weight: 700;
+  padding: 8px 11px;
 
   border-radius: 6px;
+
+  font-size: 9px;
+  font-weight: 800;
 }
 
 .nav-start:hover {
@@ -97,59 +107,63 @@ a {
 
 
 /* =========================================================
-   LANDING PAGE / HERO
+   LANDING PAGE
 ========================================================= */
 
 .hero {
   width: 100%;
   max-width: 390px;
-  min-height: 680px;
+
+  min-height: calc(100vh - 64px);
 
   margin: 0 auto;
 
-  padding: 55px 22px 40px;
-
-  position: relative;
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 85% 20%,
-      rgba(168, 85, 247, 0.18),
-      transparent 35%
-    ),
-    #09090b;
+  padding: 55px 22px 45px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(168, 85, 247, 0.18),
+      transparent 35%
+    ),
+    #09090b;
 }
 
 .hero-content {
+  width: 100%;
+
   position: relative;
   z-index: 2;
 }
 
 .presented {
+  margin-bottom: 20px;
+
   color: #a855f7;
 
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10px;
+  font-weight: 900;
 
   letter-spacing: 1.5px;
-
-  margin-bottom: 20px;
 }
 
 .hero h1 {
+  margin: 0 0 22px;
+
   font-size: 48px;
   line-height: 0.92;
 
   font-weight: 900;
 
   letter-spacing: -2px;
-
-  margin-bottom: 22px;
 }
 
 .hero h1 span {
@@ -160,37 +174,38 @@ a {
   width: 65px;
   height: 5px;
 
-  background: #facc15;
+  margin-bottom: 24px;
 
-  margin-bottom: 25px;
+  background: #facc15;
 }
 
 .hero-message {
+  margin-bottom: 25px;
+
   color: #a1a1aa;
 
   font-size: 17px;
   line-height: 1.55;
-
-  margin-bottom: 25px;
 }
 
 .hero-message strong {
-  color: white;
+  color: #ffffff;
 }
 
 .hero-stats {
+  width: 100%;
+
+  margin-bottom: 28px;
+
   display: flex;
   align-items: center;
-  gap: 8px;
-
   flex-wrap: wrap;
+  gap: 7px;
 
   color: #a1a1aa;
 
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-
-  margin-bottom: 28px;
 }
 
 .hero-stats span:first-child {
@@ -208,10 +223,12 @@ a {
   background: #facc15;
   color: #09090b;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 900;
 
   letter-spacing: 0.4px;
+
+  transition: 0.2s ease;
 }
 
 .start-button:hover {
@@ -221,6 +238,7 @@ a {
 
 /* =========================================================
    HERO VISUAL
+   Hidden on mobile
 ========================================================= */
 
 .hero-visual {
@@ -244,21 +262,21 @@ a {
 }
 
 .section-label {
+  margin-bottom: 12px;
+
   color: #a855f7;
 
   font-size: 10px;
   font-weight: 900;
 
   letter-spacing: 1.5px;
-
-  margin-bottom: 12px;
 }
 
 .why h2 {
+  margin-bottom: 30px;
+
   font-size: 35px;
   line-height: 1;
-
-  margin-bottom: 30px;
 
   letter-spacing: -1px;
 }
@@ -266,16 +284,17 @@ a {
 .why-grid {
   display: flex;
   flex-direction: column;
+
   gap: 12px;
 }
 
 .why-card {
   padding: 22px;
 
+  background: #141417;
+
   border: 1px solid #27272a;
   border-radius: 10px;
-
-  background: #141417;
 }
 
 .why-card span {
@@ -283,8 +302,7 @@ a {
 }
 
 .why-card h3 {
-  margin-top: 15px;
-  margin-bottom: 8px;
+  margin: 15px 0 8px;
 
   font-size: 17px;
 }
@@ -321,23 +339,23 @@ a {
 }
 
 .final-cta p {
+  margin-bottom: 15px;
+
   color: #facc15;
 
   font-size: 10px;
   font-weight: 900;
 
   letter-spacing: 1.5px;
-
-  margin-bottom: 15px;
 }
 
 .final-cta h2 {
+  margin-bottom: 28px;
+
   font-size: 38px;
   line-height: 0.95;
 
   letter-spacing: -1px;
-
-  margin-bottom: 28px;
 }
 
 .final-cta button {
@@ -349,9 +367,9 @@ a {
   border-radius: 7px;
 
   background: #a855f7;
-  color: white;
+  color: #ffffff;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 900;
 }
 
@@ -368,7 +386,7 @@ a {
 
   margin: 0 auto;
 
-  padding: 18px;
+  padding: 20px 18px 50px;
 
   background: #09090b;
 }
@@ -385,7 +403,7 @@ a {
   border: none;
   background: transparent;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 21px;
   font-weight: 900;
@@ -404,6 +422,8 @@ a {
 
   background: #141417;
 
+  color: #ffffff;
+
   font-size: 16px;
 }
 
@@ -412,10 +432,10 @@ a {
 }
 
 .dashboard-intro h1 {
+  margin-bottom: 15px;
+
   font-size: 34px;
   line-height: 1;
-
-  margin-bottom: 15px;
 }
 
 .dashboard-intro h1 span {
@@ -442,12 +462,12 @@ a {
 
   padding: 18px;
 
+  margin-bottom: 15px;
+
   background: #15120a;
 
   border: 1px solid #3b2f0c;
   border-radius: 10px;
-
-  margin-bottom: 15px;
 }
 
 .streak-icon {
@@ -466,11 +486,11 @@ a {
 .streak-card strong {
   display: block;
 
+  margin-top: 3px;
+
   color: #facc15;
 
   font-size: 22px;
-
-  margin-top: 3px;
 }
 
 .streak-message {
@@ -489,18 +509,18 @@ a {
 .today-card {
   padding: 20px;
 
+  margin-bottom: 15px;
+
   background: #141417;
 
   border: 1px solid #27272a;
   border-radius: 11px;
-
-  margin-bottom: 15px;
 }
 
 .today-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
   margin-bottom: 25px;
 }
@@ -513,15 +533,14 @@ a {
   width: 52px;
   height: 52px;
 
-  border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
 
   border: 4px solid #a855f7;
+  border-radius: 50%;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 11px;
   font-weight: 900;
@@ -534,24 +553,23 @@ a {
 .difficulty {
   display: inline-block;
 
+  margin-bottom: 12px;
+
+  padding: 5px 8px;
+
+  border: 1px solid #55480b;
+  border-radius: 4px;
+
   color: #facc15;
 
   font-size: 9px;
   font-weight: 900;
-
-  border: 1px solid #55480b;
-
-  padding: 5px 8px;
-
-  border-radius: 4px;
-
-  margin-bottom: 12px;
 }
 
 .challenge-info h3 {
-  font-size: 21px;
-
   margin-bottom: 8px;
+
+  font-size: 21px;
 }
 
 .challenge-info p {
@@ -570,7 +588,7 @@ a {
   border-radius: 6px;
 
   background: #a855f7;
-  color: white;
+  color: #ffffff;
 
   font-size: 11px;
   font-weight: 900;
@@ -588,19 +606,18 @@ a {
 .progress-card {
   padding: 20px;
 
-  border: 1px solid #27272a;
-  border-radius: 10px;
+  margin-bottom: 30px;
 
   background: #111114;
 
-  margin-bottom: 30px;
+  border: 1px solid #27272a;
+  border-radius: 10px;
 }
 
 .card-heading {
   display: flex;
-  justify-content: space-between;
-
   align-items: center;
+  justify-content: space-between;
 
   margin-bottom: 20px;
 }
@@ -619,11 +636,11 @@ a {
   width: 100%;
   height: 8px;
 
+  overflow: hidden;
+
   background: #27272a;
 
   border-radius: 20px;
-
-  overflow: hidden;
 }
 
 .progress-fill {
@@ -638,11 +655,11 @@ a {
   display: flex;
   justify-content: space-between;
 
+  margin-top: 8px;
+
   color: #52525b;
 
   font-size: 8px;
-
-  margin-top: 8px;
 }
 
 
@@ -655,9 +672,9 @@ a {
 }
 
 .achievements h2 {
-  font-size: 21px;
-
   margin-bottom: 18px;
+
+  font-size: 21px;
 }
 
 .achievement-grid {
@@ -675,9 +692,8 @@ a {
 
   display: flex;
   flex-direction: column;
-
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   text-align: center;
 
@@ -688,9 +704,9 @@ a {
 }
 
 .achievement-card span {
-  font-size: 22px;
-
   margin-bottom: 8px;
+
+  font-size: 22px;
 }
 
 .achievement-card strong {
@@ -698,11 +714,11 @@ a {
 }
 
 .achievement-card small {
+  margin-top: 4px;
+
   color: #71717a;
 
   font-size: 7px;
-
-  margin-top: 4px;
 }
 
 .achievement-card.locked {
@@ -717,11 +733,11 @@ a {
 .dashboard-motivation {
   padding: 25px;
 
-  border-left: 3px solid #facc15;
+  margin-bottom: 25px;
 
   background: #141417;
 
-  margin-bottom: 25px;
+  border-left: 3px solid #facc15;
 }
 
 .dashboard-motivation span {
@@ -755,10 +771,10 @@ a {
 
   background: transparent;
 
-  color: #71717a;
-
   border: 1px solid #27272a;
   border-radius: 7px;
+
+  color: #71717a;
 
   font-size: 10px;
 }
@@ -768,7 +784,8 @@ a {
    CHALLENGE DAY
 ========================================================= */
 
-.challenge-day {
+.challenge-day,
+.day-page {
   width: 100%;
   max-width: 390px;
 
@@ -779,40 +796,51 @@ a {
   padding: 20px 18px 50px;
 
   background: #09090b;
+
+  color: #ffffff;
+
+  overflow-x: hidden;
 }
 
 .back-button {
   display: inline-block;
 
+  margin-bottom: 30px;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
   color: #a1a1aa;
 
   font-size: 12px;
-
-  margin-bottom: 30px;
+  font-weight: 600;
 }
 
 .day-header {
-  display: flex;
+  width: 100%;
 
-  justify-content: space-between;
+  display: flex;
   align-items: flex-end;
+  justify-content: space-between;
 
   margin-bottom: 25px;
 }
 
 .day-header h1 {
-  font-size: 42px;
+  margin-top: 8px;
 
+  font-size: 42px;
   line-height: 1;
 
-  margin-top: 8px;
+  letter-spacing: -2px;
 }
 
 .day-counter {
   display: flex;
   align-items: baseline;
-
-  color: #71717a;
 }
 
 .day-counter strong {
@@ -822,6 +850,8 @@ a {
 }
 
 .day-counter small {
+  color: #71717a;
+
   font-size: 12px;
 }
 
@@ -833,20 +863,19 @@ a {
 .task-card {
   padding: 20px;
 
+  margin-bottom: 20px;
+
   background: #141417;
 
   border: 1px solid #27272a;
   border-radius: 11px;
-
-  margin-bottom: 30px;
 }
 
 .task-meta {
   display: flex;
+  flex-wrap: wrap;
 
   gap: 7px;
-
-  flex-wrap: wrap;
 
   margin-bottom: 18px;
 }
@@ -864,33 +893,31 @@ a {
 }
 
 .task-card h2 {
-  font-size: 27px;
-
   margin-bottom: 12px;
+
+  font-size: 27px;
 }
 
 .task-description {
+  margin-bottom: 20px;
+
   color: #a1a1aa;
 
   font-size: 13px;
-
   line-height: 1.6;
-
-  margin-bottom: 20px;
 }
 
 .task-card hr {
-  border: none;
-
-  border-top: 1px solid #27272a;
-
   margin: 20px 0;
+
+  border: none;
+  border-top: 1px solid #27272a;
 }
 
 .task-card h3 {
-  font-size: 15px;
-
   margin-bottom: 12px;
+
+  font-size: 15px;
 }
 
 .task-card ul {
@@ -899,19 +926,16 @@ a {
   color: #a1a1aa;
 
   font-size: 12px;
-
   line-height: 1.8;
 }
 
 .goal-box {
   margin-top: 20px;
-
   padding: 15px;
 
   background: #19170b;
 
   border-left: 3px solid #facc15;
-
   border-radius: 5px;
 }
 
@@ -922,13 +946,67 @@ a {
 }
 
 .goal-box p {
+  margin-top: 7px;
+
   color: #a1a1aa;
 
   font-size: 11px;
-
   line-height: 1.5;
+}
 
-  margin-top: 7px;
+
+/* =========================================================
+   DAY NAVIGATION
+========================================================= */
+
+.day-navigation {
+  width: 100%;
+
+  margin: 20px 0 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.day-nav-button {
+  flex: 1;
+
+  padding: 12px 6px;
+
+  background: #15151c;
+
+  border: 1px solid #292932;
+  border-radius: 9px;
+
+  color: #ffffff;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  transition: 0.2s ease;
+}
+
+.day-nav-button:hover:not(:disabled) {
+  border-color: #f5c542;
+  color: #f5c542;
+}
+
+.day-nav-button:disabled {
+  opacity: 0.25;
+
+  cursor: not-allowed;
+}
+
+.day-nav-current {
+  flex-shrink: 0;
+
+  color: #f5c542;
+
+  font-size: 10px;
+  font-weight: 800;
 }
 
 
@@ -937,28 +1015,35 @@ a {
 ========================================================= */
 
 .submission {
+  width: 100%;
+
+  padding: 20px;
+
   margin-bottom: 30px;
+
+  background: #141417;
+
+  border: 1px solid #27272a;
+  border-radius: 11px;
 }
 
 .submission h2 {
-  font-size: 27px;
+  margin: 5px 0 8px;
 
-  margin-bottom: 10px;
+  font-size: 22px;
 }
 
 .submission > p:not(.section-label) {
+  margin-bottom: 22px;
+
   color: #71717a;
 
   font-size: 12px;
-
   line-height: 1.5;
-
-  margin-bottom: 22px;
 }
 
 .proof-form {
   display: flex;
-
   flex-direction: column;
 
   gap: 18px;
@@ -966,7 +1051,6 @@ a {
 
 .proof-form label {
   display: flex;
-
   flex-direction: column;
 
   gap: 8px;
@@ -985,9 +1069,8 @@ a {
   border: 1px solid #27272a;
   border-radius: 6px;
 
-  background: #141417;
-
-  color: white;
+  background: #0d0d12;
+  color: #ffffff;
 
   outline: none;
 
@@ -1008,9 +1091,9 @@ a {
   border: none;
   border-radius: 6px;
 
-  background: #a855f7;
+  background: #f5c542;
 
-  color: white;
+  color: #09090b;
 
   text-align: center;
 
@@ -1026,25 +1109,23 @@ a {
 .success {
   padding: 30px 20px;
 
+  margin-bottom: 30px;
+
   background: #111b12;
 
   border: 1px solid #214d27;
-
   border-radius: 10px;
 
   text-align: center;
-
-  margin-bottom: 30px;
 }
 
 .success > span {
-  display: flex;
-
   width: 55px;
   height: 55px;
 
   margin: 0 auto 15px;
 
+  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -1052,26 +1133,26 @@ a {
 
   background: #22c55e;
 
-  color: white;
+  color: #ffffff;
 
   font-size: 25px;
   font-weight: 900;
 }
 
 .success h2 {
+  margin-bottom: 8px;
+
   color: #4ade80;
 
   font-size: 20px;
-
-  margin-bottom: 8px;
 }
 
 .success p {
+  margin-bottom: 20px;
+
   color: #86efac;
 
   font-size: 12px;
-
-  margin-bottom: 20px;
 }
 
 
@@ -1082,9 +1163,9 @@ a {
 .day-motivation {
   padding: 25px 0;
 
-  text-align: center;
-
   border-top: 1px solid #27272a;
+
+  text-align: center;
 }
 
 .day-motivation strong {
@@ -1096,13 +1177,12 @@ a {
 }
 
 .day-motivation p {
+  margin: 10px 0;
+
   color: #71717a;
 
   font-size: 12px;
-
   line-height: 1.5;
-
-  margin: 10px 0;
 }
 
 .day-motivation b {
@@ -1113,22 +1193,538 @@ a {
 
 
 /* =========================================================
-   MOBILE WIDTH
+   DESKTOP
+   Secondary view — 768px+
 ========================================================= */
 
-@media (min-width: 391px) {
-
-  .navbar,
-  .hero,
-  .why,
-  .final-cta,
-  .dashboard-page,
-  .challenge-day {
-    max-width: 390px;
-  }
+@media (min-width: 768px) {
 
   body {
     background: #050505;
   }
 
+
+  /* ---------------- NAVBAR ---------------- */
+
+  .navbar {
+    max-width: 1200px;
+
+    padding: 18px 30px;
+
+    border-bottom: 1px solid #222225;
+  }
+
+  .nav-links {
+    display: flex;
+
+    align-items: center;
+
+    gap: 30px;
+  }
+
+  .nav-links a {
+    color: #a1a1aa;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+  }
+
+  .nav-links a:hover {
+    color: #ffffff;
+  }
+
+  .nav-start {
+    padding: 10px 16px;
+
+    font-size: 10px;
+  }
+
+
+  /* ---------------- HERO ---------------- */
+
+  .hero {
+    max-width: 1200px;
+
+    min-height: 700px;
+
+    padding: 80px 60px;
+
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 50px;
+  }
+
+  .hero-content {
+    max-width: 600px;
+  }
+
+  .hero h1 {
+    font-size: 82px;
+
+    letter-spacing: -4px;
+  }
+
+  .hero-message {
+    font-size: 19px;
+  }
+
+  .hero-stats {
+    font-size: 12px;
+  }
+
+  .start-button {
+    width: auto;
+
+    min-width: 270px;
+  }
+
+
+  /* ---------------- HERO VISUAL ---------------- */
+
+  .hero-visual {
+    width: 420px;
+    height: 420px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+  }
+
+  .code-symbol {
+    position: absolute;
+
+    top: 20px;
+    right: 30px;
+
+    color: #a855f7;
+
+    font-size: 80px;
+    font-weight: 900;
+
+    opacity: 0.8;
+  }
+
+  .day-card {
+    position: absolute;
+
+    top: 60px;
+    left: 20px;
+
+    padding: 18px 22px;
+
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+
+    background: #141417;
+
+    border: 1px solid #27272a;
+    border-radius: 12px;
+  }
+
+  .day-card small {
+    color: #71717a;
+
+    font-size: 11px;
+  }
+
+  .day-card strong {
+    color: #facc15;
+
+    font-size: 35px;
+  }
+
+  .day-card span {
+    color: #71717a;
+
+    font-size: 12px;
+  }
+
+  .developer-card {
+    width: 280px;
+    height: 240px;
+
+    position: relative;
+
+    margin-top: 70px;
+
+    background: #141417;
+
+    border: 1px solid #27272a;
+    border-radius: 20px;
+  }
+
+  .monitor {
+    width: 180px;
+    height: 115px;
+
+    position: absolute;
+
+    top: 35px;
+    left: 50px;
+
+    padding: 18px;
+
+    background: #09090b;
+
+    border: 5px solid #27272a;
+    border-radius: 8px;
+  }
+
+  .monitor div {
+    width: 70%;
+
+    height: 6px;
+
+    margin-bottom: 10px;
+
+    background: #a855f7;
+
+    border-radius: 5px;
+  }
+
+  .monitor div:nth-child(2) {
+    width: 45%;
+    background: #facc15;
+  }
+
+  .monitor div:nth-child(3) {
+    width: 80%;
+  }
+
+  .monitor div:nth-child(4) {
+    width: 55%;
+    background: #facc15;
+  }
+
+  .desk {
+    width: 230px;
+    height: 15px;
+
+    position: absolute;
+
+    bottom: 38px;
+    left: 25px;
+
+    background: #27272a;
+
+    border-radius: 4px;
+  }
+
+
+  /* ---------------- WHY ---------------- */
+
+  .why {
+    max-width: 1200px;
+
+    padding: 100px 60px;
+  }
+
+  .why h2 {
+    font-size: 52px;
+  }
+
+  .why-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px;
+  }
+
+  .why-card {
+    min-height: 200px;
+
+    padding: 30px;
+  }
+
+  .why-card h3 {
+    font-size: 20px;
+  }
+
+  .why-card p {
+    font-size: 14px;
+  }
+
+
+  /* ---------------- FINAL CTA ---------------- */
+
+  .final-cta {
+    max-width: 1200px;
+
+    padding: 110px 60px;
+  }
+
+  .final-cta h2 {
+    font-size: 65px;
+  }
+
+  .final-cta button {
+    width: auto;
+
+    padding: 16px 30px;
+  }
+
+
+  /* ---------------- DASHBOARD ---------------- */
+
+  .dashboard-page {
+    max-width: 1200px;
+
+    padding: 40px 50px;
+  }
+
+  .dashboard-header {
+    margin-bottom: 55px;
+  }
+
+  .dashboard-intro h1 {
+    font-size: 50px;
+  }
+
+  .dashboard-grid {
+    display: grid;
+
+    grid-template-columns: 300px 1fr;
+
+    gap: 20px;
+  }
+
+  .progress-card {
+    grid-column: 1 / -1;
+  }
+
+  .achievement-grid {
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 15px;
+  }
+
+
+  /* ---------------- CHALLENGE DAY ---------------- */
+
+  .challenge-day,
+  .day-page {
+    max-width: 1100px;
+
+    padding: 40px 50px;
+  }
+
+  .day-header h1 {
+    font-size: 56px;
+  }
+
+  .task-card {
+    padding: 30px;
+  }
+
+  .task-card h2 {
+    font-size: 34px;
+  }
+
+  .task-description {
+    max-width: 750px;
+
+    font-size: 16px;
+  }
+
+  .submission {
+    padding: 30px;
+  }
+
+  .proof-form {
+    max-width: 700px;
+  }
+
+  .day-navigation {
+    max-width: 700px;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1200px) {
+
+  .hero {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .hero h1 {
+    font-size: 90px;
+  }
+
+  .why {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .dashboard-page {
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+}
+/* ===============================
+   DASHBOARD STATES
+================================ */
+
+.loading-state,
+.error-state {
+  padding: 50px 20px;
+  text-align: center;
+  color: #a1a1aa;
+}
+
+
+/* EMPTY PROFILE */
+
+.profile-empty-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  padding: 18px;
+
+  margin-bottom: 15px;
+
+  background: #141417;
+
+  border: 1px solid #27272a;
+  border-radius: 10px;
+}
+
+.empty-profile-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #222229;
+
+  font-size: 18px;
+}
+
+.profile-empty-card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.profile-empty-card p {
+  color: #71717a;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.profile-complete-button {
+  width: 100%;
+
+  padding: 12px;
+
+  background: transparent;
+
+  color: #a855f7;
+
+  border: 1px solid #a855f7;
+
+  border-radius: 6px;
+
+  font-size: 10px;
+  font-weight: 900;
+}
+
+
+/* FIRST DAY */
+
+.first-day-card {
+  display: flex;
+  gap: 12px;
+
+  padding: 16px;
+
+  margin-bottom: 15px;
+
+  background: #16130a;
+
+  border: 1px solid #3b300d;
+
+  border-radius: 10px;
+}
+
+.first-day-card > span {
+  font-size: 22px;
+}
+
+.first-day-card strong {
+  display: block;
+
+  color: #facc15;
+
+  font-size: 12px;
+
+  margin-bottom: 6px;
+}
+
+.first-day-card p {
+  color: #a1a1aa;
+
+  font-size: 10px;
+
+  line-height: 1.5;
+}
+
+
+/* MISSED DAY */
+
+.missed-day-card {
+  display: flex;
+  gap: 12px;
+
+  padding: 16px;
+
+  margin-bottom: 15px;
+
+  background: #17140c;
+
+  border: 1px solid #4a3c12;
+
+  border-radius: 10px;
+}
+
+.missed-day-card > span {
+  font-size: 22px;
+}
+
+.missed-day-card strong {
+  display: block;
+
+  color: #facc15;
+
+  font-size: 12px;
+
+  margin-bottom: 6px;
+}
+
+.missed-day-card p {
+  color: #a1a1aa;
+
+  font-size: 10px;
+
+  line-height: 1.5;
 }

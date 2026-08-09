@@ -6,30 +6,16 @@ import ChallengeDay from "./pages/ChallengeDay";
 
 import "./App.css";
 
+
 function App() {
+
   const [path, setPath] = useState(
     window.location.pathname
   );
 
-  useEffect(() => {
-    const handleNavigation = () => {
-      setPath(window.location.pathname);
-    };
-
-    window.addEventListener(
-      "popstate",
-      handleNavigation
-    );
-
-    return () => {
-      window.removeEventListener(
-        "popstate",
-        handleNavigation
-      );
-    };
-  }, []);
 
   const navigate = (newPath) => {
+
     window.history.pushState(
       {},
       "",
@@ -39,19 +25,56 @@ function App() {
     setPath(newPath);
   };
 
-  if (path === "/") {
-    return <Landing />;
-  }
+
+  useEffect(() => {
+
+    const handlePopState = () => {
+      setPath(window.location.pathname);
+    };
+
+    window.addEventListener(
+      "popstate",
+      handlePopState
+    );
+
+    return () => {
+      window.removeEventListener(
+        "popstate",
+        handlePopState
+      );
+    };
+
+  }, []);
+
 
   if (path === "/dashboard") {
-    return <Dashboard navigate={navigate} />;
+
+    return (
+      <Dashboard
+        navigate={navigate}
+      />
+    );
+
   }
+
 
   if (path.startsWith("/day/")) {
-    return <ChallengeDay navigate={navigate} />;
+
+    return (
+      <ChallengeDay
+        navigate={navigate}
+      />
+    );
+
   }
 
-  return <Landing />;
+
+  return (
+    <Landing
+      navigate={navigate}
+    />
+  );
 }
+
 
 export default App;
