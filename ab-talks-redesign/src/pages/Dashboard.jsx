@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 function Dashboard({ navigate }) {
-    const API_URL = "http://localhost:5000";
+    const API_URL = "trustworthy-hope-production-749d.up.railway.app";
     const STUDENT_ID = "student-001";
     const TOTAL_DAYS = 60;
 
